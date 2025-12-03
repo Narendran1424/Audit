@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVM Mack Audit</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-profile-container">
+            <div class="user-profile">
+                <img src="./assets/images/profile.png" class="user-profile-img" alt="profile">
+                <div>  
+                    <h3 class="user-name">John Smith<img src="./assets/images/drop-down.png" class= "profile-arrow" alt="dropdown-icon"></h3>
+                    <p>Chief Executive</p>
+                </div>
+            </div>
+            <div class="toggle-wrapper">
+                <img src="./assets/images/light.png" alt="light">
+                
+                <div class="toggle-container">
+                    <input type="checkbox" id="toggle">
+                    <label for="toggle" class="toggle-label"></label>
+                </div>
+                <img src="./assets/images/moon.png" alt="moon">
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li class="nav-item"><img src="./assets/images/dashboard.png" alt="dashboard"><a href="#" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><img src="./assets/images/manuals.png" alt="manuals"><a href="#" class="nav-link">Vessel Score</a></li>
+                <li class="nav-item"><img src="./assets/images/map.png" alt="map"><a href="#" class="nav-link">Officer Store</a></li>
+                
+                <li class="nav-item"><img src="./assets/images/technical.png" alt="technical"><a href="#" class="nav-link">Compare</a></li>
+                <li class="nav-item"><img src="./assets/images/safety-management.png" alt="safety-management" class="nav-link"><a href="#">Reporting KPI</a></li>
+                <li class="nav-item active"><img src="./assets/images/audit.png" alt="audit"><a href="#" class="nav-link">Audit Analytic Report</a></li>
+                <li class="nav-item"><img src="./assets/images/admin.png" alt="admin"><a href="#">Analysis</a></li>
+                <li class="nav-item"><img src="./assets/images/check-lists.png" alt="check-lists"><a href="#">Data Source</a></li>
+                <li class="nav-item"><img src="./assets/images/reports.png" alt="reports"><a href="#">Download KPI File</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="menubar">
+            <div class="menu-header">
+                <button class="menu-btn" type="button"><img src="./assets/images/menu.png" alt="menu"></button>
+                <h2 class="main-header">Audit Analytic Report</h2>
+            </div>
+            <img class="logo" src="./assets/images/logo.png" alt="logo">
+        </div>
+        <section class="audit-datails-wrapper">
+            <h3 class="audit-detail-header">Audit Details</h3>
+            <div class="audit-form-outer-wrapper not-active">
+                <div class="audit-form-wrapper">
+                    <img src="./assets/images/ship.png" alt="ship">
+                    <form action="" class="audit-form">
+                        <div class="audit-form-container">
+                            <div class="audit-form-group">
+                                <div class="input-group">
+                                    <label for="vessel_name">Vessel Name <span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Vessel Name" id="vessel_name" placeholder="Lorry Torstenson"></input>
+                                        <p class="error">please enter the vessel name</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="master">Master <span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Master"  id="master" placeholder="Barcud Bundro"></input>
+                                        <p class="error">please enter the master</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="chief_engineer">Chief Engineer<span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Chief Engineer" id="chief_engineer" placeholder="#NA"></input>
+                                        <p class="error">please enter the chief engineer</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="label" for="date_of_inspection">Date Of Inspection<span class="mandatory">*</span>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <div class="date-text">02/12/2025<img src="./assets/images/calendar.png" alt="calendar"></div>
+                                        <div class="datepicker">
+                                            <div class="datepicker-top">
+                                                <div class="date-btn-group">
+                                                    <button type="button" data-type="yesterday" class="tag">Yesterday</button>
+                                                    <button type="button" data-type="today" class="tag">Today</button>
+                                                    <button type="button" data-type="tomorrow" class="tag">Tommorow</button>
+                                                </div>
+                                                <div class="month-selector">
+                                                    <button type="button" class="arrow prev-month"><img src="./assets/images/left.png" alt="left"></button>
+                                                    <span class="month-name">December 2025</span>
+                                                    <button type="button" class="arrow next-month"><img src="./assets/images/right.png" alt="right"></button>
+                                                </div>
+                                            </div>
+                                            <div class="datepicker-calendar">
+                                                <div class="days">
+                                                    <span class="day">Sun</span>
+                                                    <span class="day">Mon</span>
+                                                    <span class="day">Tue</span>
+                                                    <span class="day">Wed</span>
+                                                    <span class="day">Thu</span>
+                                                    <span class="day">Fri</span>
+                                                    <span class="day">Sat</span>
+                                                </div>
+                                                <div class="dates">
+                                                </div>                             
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="Date of Inspection" class="date-input">
+                                        <p class="error">please provide the date of inspection</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="port_of_inspection">Port of Inspection <span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Port Of Inspection"  id="port_of_inspection" placeholder="DAY"></input>
+                                        <p class="error">please enter the part of inspection</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="inspector_name">Inspector Name <span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Inspector Name"  id="inspector_name" placeholder="Yuzziro Tarrazo"></input>
+                                        <p class="error">please enter the inspector name</p>
+                                    </div>
+                                </div>
+                                <div class="input-group file-group">
+                                    <label for="attach_file">Attach a File <span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <div class="file-wrapper">
+                                            <button for="attach_file" type="button" class="browse-btn">Browse</button>
+                                            <div class="file-preview">
+                                                <div id="progressChart" class="chart"></div>
+                                                <span class="file-info"></span>
+                                                <button type="button" class="remove-file"><img src="./assets/images/close.png" class="close-img" alt="close"></button>
+                                            </div>
+                                        </div>
+                                        
+                                        <input type="file" id="attach_file" class="attach-file">
+                                        <p class="error">please attach the file</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="audit-form-group">
+                                <div class="input-group">
+                                    <label for="imo_number">IMO Number<span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="IMO Number" id="imo_number" placeholder="9623660"></input>
+                                        <p class="error">please enter the imo number</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <div class="label" for="date_of_build">Date Of Build<span class="mandatory">*</span>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <div class="date-text">02/12/2025<img src="./assets/images/calendar.png" alt="calendar"></div>
+                                        <div class="datepicker">
+                                            <div class="datepicker-top">
+                                                <div class="date-btn-group">
+                                                    <button type="button" data-type="yesterday" class="tag">Yesterday</button>
+                                                    <button type="button" data-type="today" class="tag">Today</button>
+                                                    <button type="button" data-type="tomorrow" class="tag">Tommorow</button>
+                                                </div>
+                                                <div class="month-selector">
+                                                    <button type="button" class="arrow prev-month"><img src="./assets/images/left.png" alt="left"></button>
+                                                    <span class="month-name">December 2025</span>
+                                                    <button type="button" class="arrow next-month"><img src="./assets/images/right.png" alt="right"></button>
+                                                </div>
+                                            </div>
+                                            <div class="datepicker-calendar">
+                                                <div class="days">
+                                                    <span class="day">Sun</span>
+                                                    <span class="day">Mon</span>
+                                                    <span class="day">Tue</span>
+                                                    <span class="day">Wed</span>
+                                                    <span class="day">Thu</span>
+                                                    <span class="day">Fri</span>
+                                                    <span class="day">Sat</span>
+                                                </div>
+                                                <div class="dates">
+                                                </div>                             
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="Date Of Build" class="date-input">
+                                        <p class="error">please provide the date of build</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="label">Vessel Type <span class="mandatory">*</span>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <div class="custom-select">
+                                            <div class="selected-item" data-select="Select Vessel Type">Select Vessel Type <img src="./assets/images/drop-down.png" alt="drop-down"></div>
+                                            <ul class="option-list vessel-list">
+                                                <li data-value="Dry Cargo">Dry Cargo</li>
+                                                <li data-value="One">One</li>
+                                                <li data-value="Two">Two</li>
+                                            </ul>
+                                            <input type="hidden" name="Vessel Type" class="real-value">
+                                        </div>
+                                
+                                        <p class="error">please select the vessel type</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="label" for="ship_yard">Ship Yard<span class="mandatory">*</span>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <div class="custom-select">
+                                            <div class="selected-item" data-select="Select Ship Yard">Select Ship Yard <img src="./assets/images/drop-down.png" alt="drop-down"></div>
+                                            <ul class="option-list ship-yard-list">
+                                                <li data-value="Hyundai Heavy Industries">Hyundai Heavy Industries</li>
+                                                <li data-value="One">One</li>
+                                                <li data-value="Two">Two</li>
+                                            </ul>
+                                            <input type="hidden" name="Ship Yard" class="real-value">
+                                        </div>
+                                        <p class="error">please select the ship yard</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="label">Ship Yard Country<span class="mandatory">*</span>
+                                    </div>
+                                    <div class="input-wrapper">
+                                         <div class="custom-select">
+                                            <div class="selected-item" data-select="Select Ship Yard Country">Select Ship Yard Country <img src="./assets/images/drop-down.png" alt="drop-down"></div>
+                                            <ul class="option-list ship-yard-country-list">
+                                                <li data-value="KOREA">KOREA</li>
+                                                <li data-value="JAPAN">JAPAN</li>
+                                                <li data-value="INDIA">INDIA</li>
+                                            </ul>
+                                            <input type="hidden" name="Ship Yard Country" class="real-value">
+                                        </div>
+                                        <p class="error">plesse select the ship yard country</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="size">Size (GRT)<span class="mandatory">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input  type= "text" name="Size (GRT)" id="size" placeholder="25303"></input>
+                                        <p class="error">plese enter the size</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="audit-form-btn-container">
+                    <button type="submit" class="submit-btn">Submit</button>
+                    <button type="reset" class="cancel-btn">Cancel</button>
+                </div>
+                
+            </div>
+            <div class="audit-chart-wrapper active">
+                <div class="audit-chart-content-outer-wrapper">
+                    <div class="audit-chart-content-wrapper">
+                        <div class="audit-chart-header-wrapper">
+                            <div>
+                                <h2 class="chart-header"></h2>
+                                <p class="imo-number"></p>
+                            </div>
+                            <div class="box"></div>
+                        </div>
+                        <div class="chart-header-btn-container">
+                            <button type="button"><img src="./assets/images/export.png" alt="export"></button>
+                            <button type="button" class="close-chart-btn"><img src="./assets/images/close.png" alt="close"></button>
+                        </div>
+                    </div>
+                    <div class="audit-form-content-wrapper">
+                        <div class="audit-form-content-container">
+                            <div class="audit-form-content-group">
+                                <div class="form-content-text"><p>Ship Mgt Name</p><span data-formVal="Vessel Name">xcxcx</span></div>
+                                <div class="form-content-text"><p>Master</p> <span data-formVal="Master"></span></div>
+                                <div class="form-content-text"><p>Chief Engineer</p> <span data-formVal="Chief Engineer"></span></div>
+                                <div class="form-content-text"><p>Date of Inspection</p> <span data-formVal="Date of Inspection"></span></div>
+                                <div class="form-content-text"><p>Port Of Inspection</p> <span data-formVal="Port Of Inspection"></span></div>
+                                <div class="form-content-text"><p>Inspector Name</p><span data-formVal="Inspector Name"></span></div>
+                            </div>
+                            <div class="audit-form-content-group">
+                                <div class="form-content-text"><p>Date Of Build </p><span data-formVal="Date Of Build"></span></div>
+                                <div class="form-content-text"><p>Vessel Type</p> <span data-formVal="Vessel Type"></span></div>
+                                <div class="form-content-text"><p>Ship Yard</p> <span data-formVal="Ship Yard"></span></div>
+                                <div class="form-content-text"><p>Ship Yard Country</p> <span data-formVal="Ship Yard Country"></span></div>
+                                <div class="form-content-text"><p>Size (GRT)</p> <span data-formVal="Size (GRT)"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>

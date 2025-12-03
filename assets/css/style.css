@@ -1,0 +1,681 @@
+:root{
+    --text-black-color:rgba(0,0,0,0.8);
+    --bg-blue-color:#011627;
+    --input-label-color: #b1b1b1;
+    --input-val-color :#333333;
+    --btn-color: #457B9D;
+    --input-border-color: #d8d8d8;
+    --theme-primary:#008ffd;
+    --theme-primary-accent:#cbe8ff;
+    --bg-primary:#d6dae0;
+    --bg-secondary:#eaebec;
+    --bg-tertiary:#fdfdfd;
+    --text-primary:#1f1f25;
+    --text-secondary:#999fa6;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(../fonts/roboto-bold.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(../fonts/roboto-regular.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+body {
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: sans-serif;
+  display: flex;
+  /* overflow-y: hidden; */
+}
+a{
+    text-decoration: none;
+}
+header{
+    background-color: var(--bg-blue-color);
+    min-width: 333px;
+    padding: 20px;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    transition: left 0.7s ease;
+    z-index: 1;
+    height: 100vh;
+}
+
+.logo{
+    display: inline-block;
+}
+.header-profile-container{
+    display: flex;
+    justify-content: space-between;
+}
+.user-profile{
+    display: flex;
+    align-items: center;
+    gap:5px;
+}
+.user-profile div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.user-name{
+    font-weight: normal;
+    color: #ffffff;
+}
+.user-profile div p{
+    color: #ffffff;
+}
+.user-profile-img  {
+  border: 1px solid black; 
+  border-radius: 50%;
+}
+
+.header-profile-container .toggle-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header-profile-container .toggle-wrapper img{
+    width: 19px;
+    height: auto;
+}
+.header-profile-container .toggle-wrapper .toggle-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header-profile-container .toggle-wrapper input[type="checkbox"]{
+    display: none;
+}
+.header-profile-container .toggle-wrapper .toggle-label{
+    width: 44px;
+    height: 24px;
+    border-radius: 80px;
+    background-color: #d2d2d2;
+    cursor: pointer;
+    position: relative;
+}
+.header-profile-container .toggle-wrapper .toggle-label:before{
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    transition: transform 0.2s ease;
+    top: 1px;
+    left: 1px;
+    right: 0;
+    display: block; 
+}
+.header-profile-container .toggle-wrapper input[type="checkbox"]:checked + .toggle-label:before{
+    transform: translateX(100%);
+    background-color: var(--btn-color);
+    right: 1px;
+    left: 0;
+}
+.header-profile-container .toggle-wrapper input[type="checkbox"]:checked + .toggle-label{
+    width: 44px;
+    height: 24px;
+    border-radius: 80px;
+    background-color: #ffff;
+
+}
+nav ul{
+    list-style: none;
+    padding: 20px 0;
+}
+nav ul li{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+}
+.nav-item{
+    border-bottom: 1px solid rgb(49, 69, 80);
+}
+
+nav ul li a{
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+.nav-item.active{
+   background-color: #fff;
+}
+.nav-item.active a{
+    color: var(--bg-blue-color);
+}
+/*Main*/
+
+main{
+    padding: 35px;
+    margin-left: 333px;
+    transition: margin-left 0.7s ease;
+    width: 100%;
+    position: relative;
+}
+.menubar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.menubar .menu-header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 15px;
+    gap: 25px;
+}
+ .menubar .menu-btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.menubar .logo{
+    display: none;
+}
+
+.menubar .logo.active{
+    display: inline-block;
+}
+
+    /*
+.menubar > div{
+    display: flex;
+    gap: 20px;
+}
+.menubar div button{
+    border-right: 1px solid rgba(0,0,0,0.2);
+    padding-right: 20px;
+    position: relative;
+}
+.menubar div button img{
+    position: relative;
+}
+.menubar div button span{
+    position: absolute;
+    width: 6px;
+    height:6px;
+    background-color: #e63946;
+    border-radius: 50%;
+    right: 21px;
+    top: 11px;
+} */
+.menubar .main-header{
+    color: var(--bg-blue-color);
+    text-transform: uppercase;
+    font-size: 1.33vw;
+}
+
+/*Audit Details */
+.audit-datails-wrapper{
+    padding:28px 40px 50px 50px;
+}
+
+.audit-datails-wrapper .audit-detail-header{
+    text-transform: uppercase;
+    color: var(--text-black-color);
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(221, 222, 223);
+    font-size: 0.84vw;
+}
+.audit-form-outer-wrapper.not-active{
+    display: none;
+}
+.audit-datails-wrapper .audit-form-wrapper{
+    padding-top: 35px;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container{
+    display: flex;
+    gap: 200px;
+    align-items: flex-start;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container label,
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .label{
+    color: var(--input-label-color);
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group{
+    margin-bottom: 30px;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper{
+    position: relative;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .file-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview{
+    display: none;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview.active{
+    display: flex;
+}
+
+.audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .chart {
+  width: 65px;
+  height: 65px;
+}
+
+.audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .remove-file {
+  border: none;
+  background: transparent;
+  /* font-size: 20px; */
+  cursor: pointer;
+}
+.audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .remove-file .close-img{
+    width: 10px;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper .error{
+    color:rgb(242, 18, 18);
+    font-size:15px;
+    visibility:hidden;
+    margin-top: 4px;
+    position: absolute;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper.error .error{
+    visibility: visible;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container label .mandatory,
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .label .mandatory{
+    color: red;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container input{
+    border: none;
+    border-bottom: 1px solid var(--input-border-color);
+    color: var(--input-val-color);
+    padding-bottom: 7px;
+    outline: none;
+    font-size: 15px;
+    width: 280px;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container input[type="file"]{
+    display: none;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container input::placeholder{
+    color: var(--input-val-color);
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text{
+    color: var(--input-val-color);
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--input-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    width: 280px;
+    position: relative;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text.not-active{
+    border-bottom: 1px solid transparent;
+}
+.audit-form-wrapper .audit-form-container .datepicker{
+    position: absolute;
+    max-width: 350px;
+    background-color: rgb(245, 245, 245);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 0px; 
+    max-height: 0;
+    overflow: hidden;
+    z-index: 2;
+}
+.audit-form-wrapper .audit-form-container .datepicker.active{
+    padding: 15px;
+    max-height: 411px;
+    overflow: visible;
+    
+}
+.audit-form-wrapper .audit-form-container .datepicker-top{
+    
+    margin-bottom: 20px;
+}
+
+.audit-form-wrapper .audit-form-container .date-btn-group{
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    margin-top: -6px;
+    color: #000000cc;
+}
+.audit-form-wrapper .audit-form-container .date-btn-group button{
+    display: block;
+}
+.audit-form-wrapper .audit-form-container .datepicker-top .tag{
+    margin-right: 8px;
+    margin-top: 8px;
+    background-color: var(--bg-secondary);
+    border-radius: 5px;
+    padding: 8px 15px;
+    border: none;
+    font-size: 16px;
+}
+.audit-form-wrapper .audit-form-container .datepicker-top .tag:hover{
+    color: white;
+    background-color: var(--theme-primary);
+}
+.audit-form-wrapper .audit-form-container .datepicker-top .month-selector{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.audit-form-wrapper .audit-form-container .datepicker-top .month-selector .arrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 12px;
+
+}
+
+.audit-form-wrapper .audit-form-container .datepicker-top .month-selector .month-name{
+    font-weight: 600;
+    font-size: 20px;
+}
+.audit-form-wrapper .audit-form-container .datepicker button{
+    cursor: pointer;
+    outline: none;
+}
+
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .days{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-row-gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .dates{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-row-gap: 15px;
+}
+
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .day, 
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date{
+    justify-self: center;
+} 
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .day{
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 16px;
+    justify-self: center;
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date{
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 29px;
+    height: 29px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date:focus{
+    /* color: #fff; */
+    border: 2px solid rgba(53, 53, 53, 0.8);
+    /* background-color: var(--theme-primary); */
+    font-weight: 600;
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date.faded:focus{
+    color: var(--text-secondary);
+    border: 2px solid transparent;
+    pointer-events: none;
+    font-weight: 500;
+    background-color: transparent;
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date.faded{
+    color: var(--text-secondary);
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date.current-date{
+    border: 2px solid  rgba(0,0,0,0.8);
+}
+.audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date.current-day{
+      color: white;
+
+    border: 2px solid  rgba(0,0,0,0.8);
+    background-color: var(--theme-primary);
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .browse-btn{
+    color: var(--bg-blue-color);
+    border: 1px solid var(--bg-blue-color);
+    background-color: transparent;
+    padding: 5px 17px;
+    border-radius: 3px;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select {
+    position: relative;
+    width: 280px;
+    cursor: pointer;
+    user-select: none;
+    /* margin-bottom: 100px; */
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item{
+    color: var(--input-val-color);
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--input-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item img{
+    transition: transform 0.2s ease;
+    transform: rotate(0);
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item img.active{
+    transform: rotate(180deg);
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list{
+    position: absolute;
+    max-height: 200px;
+    overflow-y: auto;
+    top: 30px;
+    /* border: 1px solid rgba(0,0,0,0.2); */
+    z-index: 2;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    /* height:0; */
+    /* transition: 0.4s linear 0.1s; */
+    display: none;
+}
+/* .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list::-webkit-scrollbar{
+    background-color: #eee;
+    width: 4px;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list::-webkit-scrollbar-thumb{
+    background-color: var(--bg-blue-color);
+} */
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select.active .option-list{
+    height: 88px;
+    display: block;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li{
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li.active,
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li:hover{
+    background-color: var(--bg-blue-color);
+    color: white;
+}
+
+.audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-image: url('../images/drop-down.png'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.audit-form-outer-wrapper .audit-form-btn-container{
+    display: flex;
+    gap: 15px;
+}
+.audit-form-outer-wrapper .audit-form-btn-container button{
+    padding: 8px 25px;
+    background-color: transparent;
+    border: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.audit-form-outer-wrapper .audit-form-btn-container .submit-btn{
+    background-color: var(--btn-color);
+    color: white;
+}
+
+.audit-form-outer-wrapper .audit-form-btn-container .cancel-btn{
+    background-color:  white;
+    color: var(--btn-color);
+    border: 1px solid var(--btn-color);
+}
+
+/*Chart Wrapper */
+
+.audit-chart-wrapper{
+    display: none;
+}
+
+.audit-chart-wrapper.active{
+    display: block;
+}
+
+.audit-chart-content-wrapper{
+    padding-top: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* .audit-chart-header-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} */
+
+.audit-chart-header-wrapper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 60px;
+}
+
+.audit-chart-header-wrapper div .chart-header{
+    color: var(--bg-blue-color);
+    font-size: 26px;
+}
+
+.audit-chart-header-wrapper div .imo-number{
+    margin-top: 10px;
+    color: var(--input-val-color);
+}
+
+.audit-chart-header-wrapper  .box{
+    width: 20px;
+    height: 25px;
+    background-color: var(--input-label-color);
+}
+.audit-chart-content-wrapper .chart-header-btn-container{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.audit-chart-content-wrapper .chart-header-btn-container button{
+    background-color: transparent;
+    border: none;
+}
+.audit-form-content-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.audit-form-content-container{
+    display: flex;
+    gap: 80px;
+}
+
+.audit-form-content-container .audit-form-content-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.audit-form-content-container .audit-form-content-group .form-content-text{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    font-size: 15px;
+}
+.audit-form-content-container .audit-form-content-group .form-content-text p{
+    width: 125px;
+    color: var(--input-label-color);
+}
+.audit-form-content-container .audit-form-content-group .form-content-text span{
+    color: var(--bg-blue-color);
+}
