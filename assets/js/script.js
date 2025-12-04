@@ -6,18 +6,27 @@ const mainLogo= menuBar.querySelector(".logo");
 
 let menuOpen = true;
 
-function getLeftMargin() {
-  let vw = document.documentElement.clientWidth;
-    // return vw <= 1024 ? 178 :
-    // vw <= 1400 ? 236 :
-    // vw <= 1600 ? 278 : 333;
-  return 333;
-}
+// function getLeftMargin() {
+//   let vw = document.documentElement.clientWidth;
+//     // return vw <= 1024 ? 178 :
+//     // vw <= 1400 ? 236 :
+//     // vw <= 1600 ? 278 : 333;
+//   return 333;
+// }
 
 function applyLayout() {
-  const leftMargin = getLeftMargin();
-  main.style.marginLeft = menuOpen ? `${leftMargin}px` : "0";
-  header.style.left = menuOpen ? "0" : "-100%";
+  // const leftMargin = getLeftMargin();
+  // main.style.marginLeft = menuOpen ? `${leftMargin}px` : "0";
+  // main.style.marginLeft=0
+  if(menuOpen){
+    header.classList.remove("collapsed");
+    // main.classList.remove("not-")
+  }
+  else{
+    header.classList.add("collapsed")
+  }
+  // header.style.left = menuOpen ? "0" : "-5%";
+  // header.style.position=menuOpen ? "relative" : "absolute";
 }
 
 menuBtn.addEventListener('click', () => {
@@ -48,20 +57,27 @@ selectInputs.forEach(select=>{
         const selectVal=option.getAttribute("data-value");
         selectedItem.childNodes[0].textContent=selectVal;
         realInput.value=selectVal;
+        const inputWrapper=realInput.closest(".input-wrapper")
+        if(realInput.value==""){
+          inputWrapper.classList.add("error");
+        }
+        else{
+           inputWrapper.classList.remove("error");
+        }
       })
     })
   })
-   document.addEventListener("click", (e) => {
-    if (!select.contains(e.target)) {
-      select.classList.remove("active");
-      selectInputs.forEach(select=>{
-      const selectedItem=select.querySelector(".selected-item")
-      selectedItem.querySelector("img").classList.remove("active");
-    })
-    }
-  });
+   
 })
-
+document.addEventListener("click", (e) => {
+  selectInputs.forEach(select=>{
+    if (!select.contains(e.target)) {
+    select.classList.remove("active");
+    const selectedItem=select.querySelector(".selected-item")
+    selectedItem.querySelector("img").classList.remove("active");
+    }
+  })
+});
 const dateInputs = document.querySelectorAll(".audit-form-container input[type='date']");
 
 dateInputs.forEach(dateInput => {
@@ -81,40 +97,87 @@ const fileInput=auditForm.querySelector(".attach-file");
 
 const filePreview = fileWrapper.querySelector(".file-preview");
 const fileInfo = filePreview.querySelector(".file-info");
+const fileName=fileInfo.querySelector(".file-name");
+const fileSize=fileInfo.querySelector(".file-size");
+const fileNameTooltip=fileInfo.querySelector(".tooltip");
 const removeBtn = filePreview.querySelector(".remove-file");
 
-console.log(removeBtn)
 fileInput.accept = ".xlsx, .xls";
-browseBtn.addEventListener("click",()=>{
-  fileInput.click(); 
-  fileInput.type="file"
+// browseBtn.addEventListener("click",()=>{
+//   fileInput.click(); 
+//   fileInput.type="file"
  
+//   fileInput.addEventListener("change", (e) => {
+//     const file = e.target.files[0];
+//       if (!file) return;
+  
+//       const allowed = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+//         "application/vnd.ms-excel"];
+
+//     if (!allowed.includes(file.type)) {
+//       fileInput.value = ""; 
+//       filePreview.classList.remove("active");
+//       return;
+//     }
+
+//     filePreview.classList.add("active");
+  
+
+//     let formatted = formatSize(file.size);
+//     const sizeMB = file.size / (1024 * 1024);        
+//     const sizeText = sizeMB.toFixed(2);               
+//     fileName.textContent=`${file.name}`
+//     fileNameTooltip.textContent=`${file.name}`
+//     fileSize.textContent = `(${formatted})`;
+
+//     renderFileInputChart()
+  
+//   })
+// })
+fileInput.accept = ".xlsx, .xls";
+
+browseBtn.addEventListener("click", () => {
+  fileInput.click();
+
   fileInput.addEventListener("change", (e) => {
-  const file = e.target.files[0];
+    const file = e.target.files[0];
     if (!file) return;
- 
-    const allowed = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.ms-excel"];
 
-  if (!allowed.includes(file.type)) {
-    fileInput.value = ""; 
-    return;
-  }
+    const allowed = [
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel"
+    ];
+    const inputWrapper=fileInput.parentElement
+    if (!allowed.includes(file.type)) {
+      fileInput.value = "";
+      filePreview.classList.remove("active");
+      inputWrapper.classList.add("error");
+      const error=inputWrapper.querySelector(".error")
+      error.textContent="please the attach the valid file"
+      return;
+    }
 
-  filePreview.classList.add("active");
-  function formatSize(bytes) {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-  }
+    filePreview.classList.add("active");
+    inputWrapper.classList.remove("error");
+    let formatted = formatSize(file.size);
+    const sizeMB = file.size / (1024 * 1024);
+    const sizeText = sizeMB.toFixed(2);
 
-  let formatted = formatSize(file.size);
-  const sizeMB = file.size / (1024 * 1024);        
-  const sizeText = sizeMB.toFixed(2);               
-  fileInfo.textContent = `${file.name} (${sizeText} MB)`;
-  fileInfo.textContent = `${file.name.slice(-10)} (${formatted})`;
+    fileName.textContent = file.name;
+    fileNameTooltip.textContent = file.name;
+    fileSize.textContent = `(${formatted})`;
 
+    renderFileInputChart();
+  });
+});
 
+ function formatSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function renderFileInputChart(){
   Highcharts.chart("progressChart", {
     chart: {
       type: "solidgauge",
@@ -178,11 +241,10 @@ browseBtn.addEventListener("click",()=>{
     }]
   },function (chart) {
     setTimeout(() => {
-      chart.series[0].points[0].update(76);
+      chart.series[0].points[0].update(100);
     }, 200);
   })
-})
-})
+}
 
 removeBtn.addEventListener('click',(e)=>{
   e.preventDefault();
@@ -190,14 +252,6 @@ removeBtn.addEventListener('click',(e)=>{
 })
 
 const dateTexts=auditForm.querySelectorAll(".date-text");
-
-// function formatDMY(dateObj) {
-//   let d = String(dateObj.getDate()).padStart(2, "0");
-//   let m = String(dateObj.getMonth() + 1).padStart(2, "0");
-//   let y = dateObj.getFullYear();
-//   return `${d}/${m}/${y}`;
-// }
-
 
 const calendarDays = document.querySelectorAll(".custom-date-day");
 
@@ -341,6 +395,15 @@ function createDatepicker(datePicker) {
       
         datePicker.dataset.value = selectedDate.toISOString().split("T")[0];
         getSelectedDate(datePicker)
+        const parentEl=datePicker.parentElement;
+        const dateInp=parentEl.querySelector(".date-input");
+        const inputWrapper = dateInp.parentElement;
+        const errorElement = inputWrapper.querySelector(".error");
+        if(dateInp.value==""){
+          inputWrapper.classList.add("error");
+        } else {
+          inputWrapper.classList.remove("error");
+        }
       });
 
       datesContainer.appendChild(btn);
@@ -377,7 +440,7 @@ const datepickers=auditForm.querySelectorAll(".datepicker");
 
 datepickers.forEach(datePicker=>{
   createDatepicker(datePicker)
-  getSelectedDate(datePicker);
+  // getSelectedDate(datePicker);
 })
 
 function getSelectedDate(datePicker){
@@ -453,20 +516,43 @@ function validateAuditForm(){
 
     const errorElement = inputWrapper.querySelector(".error");
       if (value === "") {
-        isValid=true;
+        isValid=false;
         inputWrapper.classList.add("error");
-      } else {
+      } 
+      else {
         inputWrapper.classList.remove("error");
       }
   });
 
   return isValid;
 }
+auditInputs.forEach(input=>{
+  input.addEventListener('input',()=>{
+    if (validateAuditForm()) {
+      const inputWrapper=input.closest(".input-wrapper");
+      inputWrapper.classList.remove("error");
+    }
+  })
+})
+
+auditInputs.forEach(inp=> {
+  if(inp.id==="imo_number"){
+      inp.addEventListener("input", () => {
+    inp.value = inp.value.replace(/[^0-9]/g, "");
+    });
+  }
+  if(inp.id==="size"){
+      inp.addEventListener("input", () => {
+    inp.value = inp.value.replace(/[^0-9]/g, "");
+    })
+  }
+   
+})
 submitFormBtn.addEventListener('click',(e)=>{
   e.preventDefault();
   if (validateAuditForm()) {
     const auditData  = getAuditData();
-    sessionStorage.setItem("auditData",JSON.parse(auditData));
+    sessionStorage.setItem("auditData",JSON.stringify(auditData));
     auditInputs.forEach(input=>{
     const inputWrapper=input.closest(".input-wrapper");
     inputWrapper.classList.remove("error");
@@ -553,3 +639,35 @@ document.addEventListener('DOMContentLoaded',()=>{
   displayFormData()
 })
 
+
+
+
+// fileInput.addEventListener("change", (e) => {
+//   const file = e.target.files[0];
+//   if (!file) return;
+
+//   const reader = new FileReader();
+
+//   reader.onload = function(evt) {
+//     const data = evt.target.result;
+
+//     // Parse Excel file
+//     const workbook = XLSX.read(data, { type: "binary" });
+
+//     // Take the first sheet
+//     const sheetName = workbook.SheetNames[0];
+//     const sheet = workbook.Sheets[sheetName];
+
+//     // Convert to JSON
+//     const excelData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+//     // Store the Excel data (JSON string)
+//     sessionStorage.setItem("excelData", JSON.stringify(excelData));
+
+//     // Render your table/chart
+//     renderTable(excelData);
+//     renderChart(excelData);
+//   };
+
+//   reader.readAsBinaryString(file);
+// });

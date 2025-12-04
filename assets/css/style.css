@@ -45,59 +45,86 @@ body {
   /* font-family: 'Roboto', sans-serif; */
   font-family: sans-serif;
   display: flex;
-  /* overflow-y: hidden; */
+  overflow-y: hidden;
 }
 a{
     text-decoration: none;
 }
 header{
     background-color: var(--bg-blue-color);
-    min-width: 333px;
-    padding: 20px;
-    position: fixed; 
-    top: 0;
+    min-width: 292px;
+    width: 17.35vw;
+    max-width: 333px;
+    padding: 1.46vw 0 1.305vw;
+    padding-right: 0.79vw;
+    position: absolute; 
+    /* top: 0; */
     left: 0;
-    transition: left 0.7s ease;
+    bottom: 0;
+    transition: width 0.7s ease;
     z-index: 1;
     height: 100vh;
+    overflow: hidden;
 }
 
+header.collapsed{
+    /* min-width: 270px; */
+    width: 276px;
+}
 .logo{
     display: inline-block;
 }
 .header-profile-container{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1.46vw;
+    gap: 1.05vw;
+    padding-left: 1.2vw;
+    padding-right: 0.782vw;
 }
+/* .header.collapsed .header-profile-container{
+    flex-direction: column;
+} */
 .user-profile{
     display: flex;
     align-items: center;
-    gap:5px;
+    gap:8px;
+    white-space: nowrap;
 }
 .user-profile div{
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
 }
 .user-name{
     font-weight: normal;
     color: #ffffff;
+    display: flex;
+    align-items: center;
+    font-size: 0.89vw;
+}
+.user-name img{
+    width: 1.25vw;
 }
 .user-profile div p{
     color: #ffffff;
+    font-size: 0.73vw;
 }
 .user-profile-img  {
   border: 1px solid black; 
   border-radius: 50%;
+  width: 63px;
+  width: 3.284vw;
+  /* width: 61px; */
 }
 
 .header-profile-container .toggle-wrapper{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 10%;
 }
 .header-profile-container .toggle-wrapper img{
-    width: 19px;
+    width: 0.89vw;
     height: auto;
 }
 .header-profile-container .toggle-wrapper .toggle-container{
@@ -109,8 +136,8 @@ header{
     display: none;
 }
 .header-profile-container .toggle-wrapper .toggle-label{
-    width: 44px;
-    height: 24px;
+    width: 2.29vw;
+    height: 1.25vw;
     border-radius: 80px;
     background-color: #d2d2d2;
     cursor: pointer;
@@ -121,8 +148,8 @@ header{
     position: absolute;
     background-color: #fff;
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
+    width: 1.15vw;
+    height: 1.15vw;
     transition: transform 0.2s ease;
     top: 1px;
     left: 1px;
@@ -136,45 +163,174 @@ header{
     left: 0;
 }
 .header-profile-container .toggle-wrapper input[type="checkbox"]:checked + .toggle-label{
-    width: 44px;
+    /* width: 44px;
     height: 24px;
-    border-radius: 80px;
+    border-radius: 80px; */
     background-color: #ffff;
 
 }
-nav ul{
-    list-style: none;
-    padding: 20px 0;
+.social-container{
+    margin-bottom: 17%;
+    padding-left: 1.2vw;
 }
-nav ul li{
+.social-container .social-list{
+    display: flex;
+    /* gap: 30px; */
+    align-items: center;
+}
+/* .header.collapsed .social-list{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-row-gap: 15px;
+    align-content: center;
+    justify-items: center;
+} */
+.social-container .social-list li{
+    list-style-type: none;
+    /* border-right: 1px solid ; */
+    padding-inline: 1.57vw;
+    position: relative;
+}
+.header.collapsed .social-container .social-list ul li{
+    padding-inline: 0;
+    width: 100%;
+}
+.social-container .social-list li:first-of-type{
+    padding-left: 0;
+}
+/* .header.collapsed .social-list li:first-of-type{
+    padding-right: 0px;
+    border-right: 1px solid rgba(255,255,255,0.8);
+} */
+/* .header.collapsed .social-list li:nth-of-type(2){
+    padding-inline: 0;
+} */
+.header.collapsed .social-list li{
+    padding-inline: 1.25vw;
+}
+.header.collapsed .social-container .social-list li:first-of-type{
+    padding-left: 0;
+}
+.social-container .social-list li:last-of-type{
+    border-right: none;
+    padding-right: 0px;
+}
+/* .header.collapsed .social-container .social-list li:last-of-type{
+    padding-right: 1.57vw;
+} */
+
+.social-container .social-list li::after{
+    position: absolute;
+    content: '';
+    background-color: rgba(255,255,255,0.8);
+    height: 17px;
+    width: 1px;
+    /* left: 40px; */
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.social-container .social-list li:last-of-type::after{
+    width: 0;
+    height: 0;
+    background-color: transparent;
+}
+
+.social-container .social-list li a{
+    display: inline-block;
+}
+.social-container .social-list li a img{
+    width: 1.15vw;
+}
+.social-container .social-list li a img{
+    position: relative;
+}
+.social-container .social-list li a span {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: #e63946;
+    border-radius: 50%;
+    right: 3px;
+    top: 2px;
+}
+
+/* .header.collapsed .social-list li a span{
+    left: 0;
+} */
+.header nav{
+    margin-bottom:  7.15vw;
+    max-height: 45%;
+    padding-left:1.05vw;
+    padding-right: 10px;
+    overflow-y: scroll;
+}
+.header nav::-webkit-scrollbar{
+    background-color: #eee;
+    /* background-color: transparent; */
+    width: 4px;
+    border-radius: 5px;
+}
+.header nav::-webkit-scrollbar-thumb{
+    background-color:#b1b1b1;
+    background-color: var(--btn-color);
+    /* width: 6px; */
+    border-radius: 5px;
+}
+.header.collapsed nav{
+    margin-bottom: 35%;
+}
+
+.header nav ul{
+    list-style: none;
+}
+.header nav ul li{
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 15px;
+    gap: 15px;
+    padding: 0.78vw 0.78vw 0.68vw;
 }
-.nav-item{
+.header .nav-item{
     border-bottom: 1px solid rgb(49, 69, 80);
 }
 
-nav ul li a{
+.header nav ul li a{
     color: rgba(255,255,255,0.8);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 0.89vw;
+    /* font-size: 106%; */
 }
-.nav-item.active{
-   background-color: #fff;
+.header nav ul li img{
+    width: 1.2vw;
 }
-.nav-item.active a{
+.header .nav-item.active{
+   background-color: rgb(255, 255, 255);
+}
+.header .nav-item.active a{
     color: var(--bg-blue-color);
+}
+.header .header-bottom-img-container img{
+    /* width: 265px; */
+    padding-left: 0.89vw;
+    width: 14.951vw;
+}
+.header.collapsed .header-bottom-img-container img{
+    width: 230px;
 }
 /*Main*/
 
 main{
-    padding: 35px;
-    margin-left: 333px;
+    padding: 2%  1.83%;
+    /* margin-left: 333px; */
+    margin-left: clamp(292px, 17.35vw, 17.35vw);
     transition: margin-left 0.7s ease;
     width: 100%;
+    max-height: 100vh;
     position: relative;
+    overflow-y: auto;
+}
+header.collapsed+main{
+    margin-left: 276px;
 }
 .menubar{
     display: flex;
@@ -186,13 +342,17 @@ main{
     align-items: center;
     width: 100%;
     padding-bottom: 15px;
-    gap: 25px;
+    gap: 1.302vw;
 }
  .menubar .menu-btn{
     border: none;
     background-color: transparent;
     cursor: pointer;
 }
+ .menubar .menu-btn img{
+    width: 1.25vw;
+    height: auto;
+ }
 
 .menubar .logo{
     display: none;
@@ -232,7 +392,7 @@ main{
 
 /*Audit Details */
 .audit-datails-wrapper{
-    padding:28px 40px 50px 50px;
+    padding:1.46vw 1.15vw 1.57vw 2.5vw;
 }
 
 .audit-datails-wrapper .audit-detail-header{
@@ -240,7 +400,7 @@ main{
     color: var(--text-black-color);
     padding-bottom: 15px;
     border-bottom: 1px solid rgb(221, 222, 223);
-    font-size: 0.84vw;
+    font-size: 0.88vw;
 }
 .audit-form-outer-wrapper.not-active{
     display: none;
@@ -251,10 +411,16 @@ main{
     gap: 30px;
     align-items: flex-start;
     justify-content: flex-start;
+    margin-bottom: 8vw;
+}
+.ship-img{
+    width: 2.6042vw;
+    /* width: 3.461%; */
+    height: auto;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container{
     display: flex;
-    gap: 200px;
+    gap: 140px;
     align-items: flex-start;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container label,
@@ -262,11 +428,11 @@ main{
     color: var(--input-label-color);
     display: block;
     margin-bottom: 7px;
-    font-size: 13px;
+    font-size: 81.5%;
 }
 
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group{
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper{
@@ -293,7 +459,49 @@ main{
   width: 65px;
   height: 65px;
 }
-
+.audit-form-container .input-group .file-wrapper .file-preview .file-info{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.audit-form-container .input-group .file-wrapper .file-preview .file-name{
+    max-width: 60px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    cursor: pointer; 
+}
+.audit-form-container .input-group .file-wrapper .file-preview .file-info .tooltip{
+    visibility: hidden;
+    width: fit-content;
+    background-color: var(--bg-blue-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 23px;
+    left: 0;
+    font-size: 15px;
+    text-wrap: nowrap;
+}
+.audit-form-container .input-group .file-wrapper .file-preview .file-info .tooltip::after {
+    content: "";
+    position: absolute;
+    left: 10px;   
+    bottom: -5px;  
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--bg-blue-color); 
+}
+.audit-form-container .input-group .file-wrapper .file-preview .file-info:hover .tooltip{
+    visibility: visible;
+}
 .audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .remove-file {
   border: none;
   background: transparent;
@@ -306,9 +514,9 @@ main{
 
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper .error{
     color:rgb(242, 18, 18);
-    font-size:15px;
+    font-size:0.72vw;
     visibility:hidden;
-    margin-top: 4px;
+    margin-top: 7px;
     position: absolute;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper.error .error{
@@ -325,7 +533,8 @@ main{
     padding-bottom: 7px;
     outline: none;
     font-size: 15px;
-    width: 280px;
+    width: 325px;
+    width: 16.93vw;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container input[type="file"]{
     display: none;
@@ -343,7 +552,8 @@ main{
     align-items: center;
     justify-content: space-between;
     font-size: 15px;
-    width: 280px;
+    width: 325px;
+    width: 16.93vw;
     position: relative;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text.not-active{
@@ -366,7 +576,6 @@ main{
     
 }
 .audit-form-wrapper .audit-form-container .datepicker-top{
-    
     margin-bottom: 20px;
 }
 
@@ -389,7 +598,7 @@ main{
     border-radius: 5px;
     padding: 8px 15px;
     border: none;
-    font-size: 16px;
+    font-size: 0.84vw;
 }
 .audit-form-wrapper .audit-form-container .datepicker-top .tag:hover{
     color: white;
@@ -407,15 +616,16 @@ main{
     justify-content: center;
     border: none;
     background-color: #fff;
-    width: 30px;
-    height: 30px;
+    width: 1.5vw;
+    height: 1.5vw;
     border-radius: 12px;
-
 }
-
+.audit-form-wrapper .audit-form-container .datepicker-top .month-selector .arrow img{
+    width: 1.2vw;
+}
 .audit-form-wrapper .audit-form-container .datepicker-top .month-selector .month-name{
     font-weight: 600;
-    font-size: 20px;
+    font-size: 1vw;
 }
 .audit-form-wrapper .audit-form-container .datepicker button{
     cursor: pointer;
@@ -432,7 +642,7 @@ main{
 .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .dates{
     display: grid;
     grid-template-columns: repeat(7,1fr);
-    grid-row-gap: 15px;
+    grid-row-gap: 0.7vw;
 }
 
 .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .day, 
@@ -442,15 +652,15 @@ main{
 .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .day{
     color: var(--text-primary);
     font-weight: 500;
-    font-size: 16px;
+    font-size: 0.76vw;
     justify-self: center;
 }
 .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date{
     border: none;
     margin: 0;
     padding: 0;
-    width: 29px;
-    height: 29px;
+    width: 1.4vw;
+    height: 1.4vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -458,7 +668,7 @@ main{
     border: 2px solid transparent;
     cursor: pointer;
     display: block;
-    font-size: 17px;
+    font-size: 0.83vw;
     font-weight: 500;
 }
 .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date:focus{
@@ -496,7 +706,8 @@ main{
 
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select {
     position: relative;
-    width: 280px;
+    width: 325px;
+    width: 16.93vw;
     cursor: pointer;
     user-select: none;
     /* margin-bottom: 100px; */
@@ -522,7 +733,7 @@ main{
     position: absolute;
     max-height: 200px;
     overflow-y: auto;
-    top: 30px;
+    top: 25px;
     /* border: 1px solid rgba(0,0,0,0.2); */
     z-index: 2;
     width: 100%;
@@ -540,13 +751,14 @@ main{
     background-color: var(--bg-blue-color);
 } */
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select.active .option-list{
-    height: 88px;
+    height: 106px;
     display: block;
     border: 1px solid rgba(0,0,0,0.2);
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li{
-    padding: 5px;
+    padding: 8px;
     cursor: pointer;
+    font-size: 15px;
     transition: background-color 0.2s ease;
 }
 .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li.active,
@@ -574,12 +786,15 @@ main{
     gap: 15px;
 }
 .audit-form-outer-wrapper .audit-form-btn-container button{
-    padding: 8px 25px;
+    padding: 0.626% 1.87%;
     background-color: transparent;
     border: none;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 0.89vw;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .audit-form-outer-wrapper .audit-form-btn-container .submit-btn{
@@ -678,4 +893,14 @@ main{
 }
 .audit-form-content-container .audit-form-content-group .form-content-text span{
     color: var(--bg-blue-color);
+}
+
+@media screen and (max-width:1600px){
+    header{
+        width: 278px;
+        max-width: 278px;
+    }
+    main{
+        margin-left: 278px;
+    }
 }
