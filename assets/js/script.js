@@ -3,37 +3,42 @@ const menuBar=document.querySelector(".menubar")
 const menuBtn=menuBar.querySelector(".menu-btn");
 const main=document.querySelector("main");
 const mainLogo= menuBar.querySelector(".logo");
+const bottomLogo=header.querySelector(".header-bottom-img-container img");
+
 
 let menuOpen = true;
-
-// function getLeftMargin() {
-//   let vw = document.documentElement.clientWidth;
-//     // return vw <= 1024 ? 178 :
-//     // vw <= 1400 ? 236 :
-//     // vw <= 1600 ? 278 : 333;
-//   return 333;
-// }
-
 function applyLayout() {
-  // const leftMargin = getLeftMargin();
-  // main.style.marginLeft = menuOpen ? `${leftMargin}px` : "0";
-  // main.style.marginLeft=0
   if(menuOpen){
     header.classList.remove("collapsed");
-    // main.classList.remove("not-")
+    bottomLogo.src="./assets/images/svm-logo-dark.webp"
   }
   else{
-    header.classList.add("collapsed")
+    header.classList.add("collapsed");
+    setTimeout(()=>{
+      bottomLogo.src="./assets/images/mack-logo.png"
+    },500)
+
   }
-  // header.style.left = menuOpen ? "0" : "-5%";
-  // header.style.position=menuOpen ? "relative" : "absolute";
 }
 
 menuBtn.addEventListener('click', () => {
   menuOpen = !menuOpen;
   applyLayout();
+   setTimeout(updateNavScroll, 600);
 });
 
+function updateNavScroll() {
+    const nav = document.querySelector("header nav");
+
+    if (nav.scrollHeight > nav.clientHeight) {
+        nav.classList.add("with-scrollbar");
+        nav.classList.remove("no-scrollbar");
+    } else {
+        nav.classList.remove("with-scrollbar");
+        nav.classList.add("no-scrollbar");
+    }
+}
+window.addEventListener("resize", updateNavScroll);
 window.addEventListener('resize', applyLayout);
 
 applyLayout();
@@ -78,6 +83,8 @@ document.addEventListener("click", (e) => {
     }
   })
 });
+
+
 const dateInputs = document.querySelectorAll(".audit-form-container input[type='date']");
 
 dateInputs.forEach(dateInput => {
@@ -102,149 +109,123 @@ const fileSize=fileInfo.querySelector(".file-size");
 const fileNameTooltip=fileInfo.querySelector(".tooltip");
 const removeBtn = filePreview.querySelector(".remove-file");
 
+
 fileInput.accept = ".xlsx, .xls";
-// browseBtn.addEventListener("click",()=>{
-//   fileInput.click(); 
-//   fileInput.type="file"
- 
-//   fileInput.addEventListener("change", (e) => {
-//     const file = e.target.files[0];
-//       if (!file) return;
-  
-//       const allowed = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-//         "application/vnd.ms-excel"];
-
-//     if (!allowed.includes(file.type)) {
-//       fileInput.value = ""; 
-//       filePreview.classList.remove("active");
-//       return;
-//     }
-
-//     filePreview.classList.add("active");
-  
-
-//     let formatted = formatSize(file.size);
-//     const sizeMB = file.size / (1024 * 1024);        
-//     const sizeText = sizeMB.toFixed(2);               
-//     fileName.textContent=`${file.name}`
-//     fileNameTooltip.textContent=`${file.name}`
-//     fileSize.textContent = `(${formatted})`;
-
-//     renderFileInputChart()
-  
-//   })
-// })
-fileInput.accept = ".xlsx, .xls";
-
+const loader=filePreview.querySelector(".loader")
+const loaderLabel=filePreview.querySelector(".loader-label");
 browseBtn.addEventListener("click", () => {
   fileInput.click();
-
-  fileInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const allowed = [
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.ms-excel"
-    ];
-    const inputWrapper=fileInput.parentElement
-    if (!allowed.includes(file.type)) {
-      fileInput.value = "";
-      filePreview.classList.remove("active");
-      inputWrapper.classList.add("error");
-      const error=inputWrapper.querySelector(".error")
-      error.textContent="please the attach the valid file"
-      return;
-    }
-
-    filePreview.classList.add("active");
-    inputWrapper.classList.remove("error");
-    let formatted = formatSize(file.size);
-    const sizeMB = file.size / (1024 * 1024);
-    const sizeText = sizeMB.toFixed(2);
-
-    fileName.textContent = file.name;
-    fileNameTooltip.textContent = file.name;
-    fileSize.textContent = `(${formatted})`;
-
-    renderFileInputChart();
-  });
 });
 
- function formatSize(bytes) {
+fileInput.addEventListener("change", handleFile);
+
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const allowed = [
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/vnd.ms-excel"
+  ];
+
+  const inputWrapper = fileInput.parentElement;
+
+  if (!allowed.includes(file.type)) {
+    fileInput.value = "";
+    filePreview.classList.remove("active");
+    inputWrapper.classList.add("error");
+    const error = inputWrapper.querySelector(".error");
+    error.textContent = "please attach the valid file";
+    return;
+  }
+
+  filePreview.classList.add("active");
+
+  loader.classList.remove("active");
+  void loader.offsetWidth;
+  loader.classList.add("active");
+
+    start = null; 
+    requestAnimationFrame(animate);
+  inputWrapper.classList.remove("error");
+
+  let formatted = formatSize(file.size);
+  fileName.textContent = file.name;
+  fileNameTooltip.textContent = file.name;
+  fileSize.textContent = `(${formatted})`;
+
+  getExcelData();
+}
+
+function getExcelData() {
+  const reader = new FileReader();
+
+  reader.onload = function(evt) {
+    const data = evt.target.result;
+    const workbook = XLSX.read(data, { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const excelData = XLSX.utils.sheet_to_json(sheet);
+    console.log(excelData);
+    sessionStorage.setItem("excelData", JSON.stringify(excelData));
+  };
+
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+
+
+function getExcelData() {
+    const reader = new FileReader();
+
+    reader.onload = function(evt) {
+        const data = evt.target.result;
+
+
+        const workbook = XLSX.read(data, { type: "array" });
+
+        
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+
+        const excelData = XLSX.utils.sheet_to_json(sheet);
+
+        console.log(excelData);
+
+        sessionStorage.setItem("excelData", JSON.stringify(excelData));
+    };
+
+    reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+
+
+let start = null;
+const duration = 1000; 
+
+function animate(timestamp) {
+  if(!start) start = timestamp;
+
+  let progress = Math.min((timestamp - start) / duration * 100, 100);
+
+  loaderLabel.textContent = `${Math.floor(progress)}%`;
+
+  if (progress < 100) {
+    requestAnimationFrame(animate);
+  }
+}
+
+
+
+
+function formatSize(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-function renderFileInputChart(){
-  Highcharts.chart("progressChart", {
-    chart: {
-      type: "solidgauge",
-      height: "65",
-      width: "65",
-      backgroundColor: "transparent"
-    },
-    title: null,
-    pane: {
-      center: ["50%", "50%"],
-      size: "100%",
-      startAngle: 0,
-      endAngle: 360,
-      background: {
-        outerRadius: "100%",
-        innerRadius: "85%",
-        borderWidth: 0,
-        backgroundColor: "#b1b1b1"
-      }
-    },
-    tooltip: { enabled: false },
-    credits:{enabled:false},
-    yAxis: {
-      min: 0,
-      max: 100,
-      lineWidth: 0,
-      tickPositions: []
-    },
-    accessibility:{enabled:false},
-    plotOptions: {
-      solidgauge: {
-        rounded:true,
-        innerRadius: "85%",
-        dataLabels: {
-          useHTML: true,
-          borderWidth: 0,
-          enabled: true,
-           formatter: function () {
-              return `
-            <div style=" 
-                font-size: 12px;
-                text-align: center;
-                position: relative;
-                top:13px;
-                color:"#457B9D";
-            ">
-                ${Math.round(this.y)}%
-            </div>`
-            }
-          }
-      }
-    },
 
-    series: [{
-      data: [{
-        color: "#011627",
-        radius: '100%',
-        innerRadius: '85%',
-        y: 0 
-      }]
-    }]
-  },function (chart) {
-    setTimeout(() => {
-      chart.series[0].points[0].update(100);
-    }, 200);
-  })
-}
 
 removeBtn.addEventListener('click',(e)=>{
   e.preventDefault();
@@ -279,6 +260,10 @@ let flag=0;
 let selectedMonth;
 let selectedDatee;
 let selectedYear;
+ const MONTHS = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 function createDatepicker(datePicker) {
 
   const monthNameEl = datePicker.querySelector(".month-name");
@@ -288,13 +273,12 @@ function createDatepicker(datePicker) {
   const tags = datePicker.querySelectorAll(".tag");
 
   let today = new Date();
+
   let current = new Date(today);
+
   let selectedDate = null;
 
-  const MONTHS = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+ 
 
   function renderCalendar() {
     const year = current.getFullYear();
@@ -395,15 +379,7 @@ function createDatepicker(datePicker) {
       
         datePicker.dataset.value = selectedDate.toISOString().split("T")[0];
         getSelectedDate(datePicker)
-        const parentEl=datePicker.parentElement;
-        const dateInp=parentEl.querySelector(".date-input");
-        const inputWrapper = dateInp.parentElement;
-        const errorElement = inputWrapper.querySelector(".error");
-        if(dateInp.value==""){
-          inputWrapper.classList.add("error");
-        } else {
-          inputWrapper.classList.remove("error");
-        }
+        validDateInput(datePicker)
       });
 
       datesContainer.appendChild(btn);
@@ -444,10 +420,6 @@ datepickers.forEach(datePicker=>{
 })
 
 function getSelectedDate(datePicker){
-   const MONTHS = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
    const monthNameEl=datePicker.querySelector(".month-name")
   const MonthArr=monthNameEl.textContent.split(" ")
     selectedMonth=Number(MONTHS.findIndex(m => m === MonthArr[0]))+1
@@ -466,6 +438,19 @@ function getSelectedDate(datePicker){
     const dateText=parentEl.querySelector(".date-text");
     dateText.childNodes[0].textContent=`${selectedDatee}/${selectedMonth}/${selectedYear}`;
 }
+
+function  validDateInput(datePicker){
+  const parentEl=datePicker.parentElement;
+        const dateInp=parentEl.querySelector(".date-input");
+        const inputWrapper = dateInp.parentElement;
+        const errorElement = inputWrapper.querySelector(".error");
+        if(dateInp.value==""){
+          inputWrapper.classList.add("error");
+        } else {
+          inputWrapper.classList.remove("error");
+        }
+}
+
 
 dateTexts.forEach(dateText => {
   dateText.addEventListener("click", () => {
@@ -553,10 +538,7 @@ submitFormBtn.addEventListener('click',(e)=>{
   if (validateAuditForm()) {
     const auditData  = getAuditData();
     sessionStorage.setItem("auditData",JSON.stringify(auditData));
-    auditInputs.forEach(input=>{
-    const inputWrapper=input.closest(".input-wrapper");
-    inputWrapper.classList.remove("error");
-    })
+    delFormData()
     formWrapper.classList.add("not-active");
     chartWrapper.classList.add("active");
     mainLogo.classList.add("active");
@@ -566,8 +548,12 @@ submitFormBtn.addEventListener('click',(e)=>{
 })
 
 cancelFormBtn.addEventListener("click",()=>{
+  delFormData()
+
+})
+
+function delFormData(){
   auditForm.reset();
-  sessionStorage.removeItem("auditData")
   auditInputs.forEach(input=>{
     const inputWrapper=input.closest(".input-wrapper");
     inputWrapper.classList.remove("error");
@@ -584,8 +570,13 @@ cancelFormBtn.addEventListener("click",()=>{
     createDatepicker(datePicker)
     getSelectedDate(datePicker);
   })
+  dateTexts.forEach(dateText=>{
+    dateText.childNodes[0].textContent="dd/mm/yyyy"
+  })
+  
+  filePreview.classList.remove("active");
+}
 
-})
 
 function getAuditData() {
   const auditFormData = {};
@@ -671,3 +662,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 //   reader.readAsBinaryString(file);
 // });
+

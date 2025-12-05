@@ -1,0 +1,404 @@
+@media screen and (max-width:1600px){
+    header{
+        min-width: 210px;
+        width: 17.38vw;
+        max-width: 278px;
+    }
+    .user-profile {
+        gap: 6px;
+    }
+    .user-name {
+        font-size: 0.87vw;
+    }
+    .user-profile div p {
+        font-size: 0.729vw;
+    }
+    .header-profile-container .toggle-wrapper{
+        gap: 6px;
+    }
+    .header.collapsed .social-container{
+        padding-left: 1.05vw;
+        padding-right: 8px;
+    }
+    .social-container .social-list li {
+        padding-inline: 1.5vw;
+    }
+    .social-container .social-list li::after{
+        height: 15px;
+    }
+    .header nav{
+        padding-right: 8px;
+        /* max-height: 57%; */
+    }
+
+    .header nav ul li{
+        gap: 12px;
+    }
+    main{
+        margin-left: clamp(210px, 17.38vw, 278px);
+        padding: 1.95% 1.83%;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container label, .audit-datails-wrapper .audit-form-wrapper .audit-form-container .label {
+        margin-bottom: 5px;
+    }
+    .menubar .menu-header{
+        padding-bottom: 12px;
+        gap: 1.2vw;
+    }
+    .menubar .main-header {
+        font-size: 1.29vw;
+    }
+    .audit-datails-wrapper .audit-detail-header {
+        padding-bottom: 14px;
+        font-size: 0.86vw;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container label, .audit-datails-wrapper .audit-form-wrapper .audit-form-container .label {
+        font-size: 12.6px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container input {
+        padding-bottom: 5px;
+        font-size: 14px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper .error {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .browse-btn {
+        margin-top: 2px;
+        padding: 5px 15px;
+        border-radius: 2px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text {
+        padding-bottom: 5px;
+        font-size: 14px;
+    }
+     .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text img{
+        width: 14px;
+        height: auto;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .days {
+        grid-row-gap: 13px;
+        margin-top: 13px;
+        margin-bottom: 17px;
+    }
+    .audit-form-wrapper .audit-form-container .date-btn-group {
+        margin-bottom: 13px;
+        margin-top: -5px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item img {
+        width: 9px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li {
+        padding: 6px;
+        font-size: 14px;
+    }
+  
+    .audit-form-container .input-group .file-wrapper .file-preview .file-info .tooltip {
+        border-radius: 3px;
+        bottom: 20px;
+        font-size: 13px;
+    }
+    .audit-form-container .input-group .file-wrapper .file-preview .file-info .tooltip::after {
+        left: 6px;
+        bottom: -4px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--bg-blue-color);
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item {
+        padding-bottom: 5px;
+        font-size: 14px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list {
+        top: 22px;
+    }
+    .social-container .social-list li a span {
+        width: 4.4px;
+        height: 4.4px;
+        right: 2.8px;
+        top: 3px;
+    }
+    .audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview {
+        gap: 6px;
+    }
+    
+    .loader-wrapper span {
+        top: 36%;
+    }
+    .audit-form-outer-wrapper .audit-form-btn-container button {
+        border-radius: 3px;
+    }
+    .audit-form-outer-wrapper .audit-form-btn-container {
+        gap: 12px;
+    }
+    .header .header-bottom-img-container img{
+        width: 14vw;
+    }
+    .header.collapsed .header-bottom-img-container img {
+        min-width: 130%;
+        width: 130%;
+    }
+
+}
+
+@media screen and (max-width:1400px){
+    .audit-datails-wrapper .audit-detail-header {
+        padding-bottom: 10px;
+    }
+    .header-profile-container .toggle-wrapper img {
+        min-width: 12px;
+    }
+    .header-profile-container {
+        gap: 0.7vw;
+        padding-left: 1vw;
+    }
+    .user-name {
+        font-size: clamp(11px, 0.87vw, 0.87vw);
+        gap: 3px;
+    }
+        .user-profile div p {
+        font-size: clamp(10px, 0.729vw, 0.729vw)
+    }
+    .header nav ul li {
+        gap: 10px;
+    }
+    .header nav ul li a {
+        font-size: clamp(13px, 0.89vw, 0.89vw);
+    }
+    .header nav ul li img {
+        min-width: 16px;
+    }
+    .social-container .social-list li a img {
+        min-width: 15px;
+    }
+    .menubar .menu-header {
+        padding-bottom: 11px;
+    }
+    .social-container .social-list li a span {
+        width: 4px;
+        height: 4px;
+        right: 2.5px;
+        top: 3px;
+    }
+    .audit-datails-wrapper {
+        padding: 1.45vw 1.15vw 1.57vw 2.49vw;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container input,
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text {
+        padding-bottom: 4px;
+        font-size: 13px;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .days {
+        grid-row-gap: 12px;
+        margin-top: 12px;
+        margin-bottom: 14px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper .error {
+        margin-top: 5px;
+        font-size: 11px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list { 
+        top: 20px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container label, .audit-datails-wrapper .audit-form-wrapper .audit-form-container .label {
+        font-size: 12px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .browse-btn {
+        margin-top: 4px;
+        padding: 5px 12px;
+        border-radius: 2px;
+        font-size: 11px;
+    }
+    .audit-form-outer-wrapper .audit-form-btn-container button {
+        padding: 7px 20px;
+        font-size: 12.5px;
+    }
+     .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .option-list li {
+        padding: 5px;
+        font-size: 13px;
+    }
+    .audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .chart {
+        width: 55px;
+        height: 55px;
+    }
+    .audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .chart .file-chart-label {
+        font-size: 10px;
+        top: 13px;
+    }
+    .audit-form-container .input-group .file-wrapper .file-preview .file-name ,
+    .audit-form-container .input-group .file-wrapper .file-preview .file-size {
+       
+        font-size: 11px;
+    }
+    .audit-form-wrapper .audit-form-container .input-group .file-wrapper .file-preview .remove-file {
+        margin-left: 3px;
+    }
+    .audit-form-container .input-group .file-wrapper .file-preview .file-info .tooltip {
+        border-radius: 3px;
+        bottom: 20px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text img {
+        width: 13px; 
+    }
+
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item {
+        padding-bottom: 4px;
+        font-size: 13px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item img {
+        width: 8.5px;
+    }
+    .audit-form-outer-wrapper .audit-form-btn-container {
+        gap: 11px;
+    }
+   
+    .file-wrapper .file-preview .loader {
+        border:2.5px solid #b1b1b1;
+    }
+    .file-wrapper .file-preview .loader::before {
+        inset: -2.5px;
+        border:2.5px solid #b1b1b1;
+    }
+
+    .file-wrapper .file-preview .loader.active::before {
+        border:2.5px solid var(--bg-blue-color);
+    }
+    .header.collapsed .header-bottom-img-container img {
+        min-width: 120%;
+        width: 120%;
+    }
+}
+
+@media screen and (max-width:1200px){
+    .header nav ul li {
+        gap: 8px;
+        padding:10px 10px 8px;
+    }
+     .header nav ul li a {
+        font-size: 11px;
+    }
+    .header-profile-container {
+        gap: 8px;
+        padding-left: 12px;
+        margin-bottom: 18px;
+    }
+    .user-profile-img{
+        min-width: 35px;
+    }
+    .header.collapsed .user-profile-img {
+        min-width: 32px;
+    }
+    .user-name img {
+        width: 12px;
+    }
+    .social-container .social-list li a span {
+        width: 3.7px;
+        height: 3.7px;
+        right: 2px;
+        top: 2.7px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .option-list {
+        top: 18px;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker-top .month-selector .month-name {
+        font-size: 12px;
+    }
+    .header .header-bottom-img-container img {
+        min-width: 150px;
+    }
+    .header.collapsed .header-bottom-img-container img {
+        min-width: 110%;
+        width: 110%;
+    }
+    main{
+        padding: 23px 21px;
+    }
+    .menubar .menu-btn img {
+        min-width: 14px;
+    }
+    .menubar .main-header {
+        font-size: 16px;
+    }
+  
+    .audit-datails-wrapper .audit-detail-header {
+        padding-bottom: 10px;
+        font-size: 12px;
+    
+    }
+    .audit-datails-wrapper {
+        padding: 1.45vw 1.15vw 1.57vw 2.45vw;
+    }
+    .ship-img{
+        min-width: 28px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group {
+        margin-bottom: 20px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container input,
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text,
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select {
+        min-width: 207px;
+    }
+
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .date-text img {
+        width: 12px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper {
+        padding-top: 21px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container {
+        gap: 95px
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item img {
+        width: 8px;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker-top .tag {
+        font-size: 11px;
+    }
+     .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .days {
+        grid-row-gap: 10px;
+        margin-top: 11px;
+        margin-bottom: 12px;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .day {
+        font-size: 10px;
+    }
+    .audit-form-wrapper .audit-form-container .datepicker .datepicker-calendar .date {
+        width: 16.6px;
+        height: 16.6px;
+        font-size: 10px;
+    }
+   
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .custom-select .selected-item {
+        padding-bottom: 4px;
+        font-size: 12px;
+    }
+    .audit-datails-wrapper .audit-form-wrapper .audit-form-container .input-group .input-wrapper .error {
+        margin-top: 3px;
+    }
+    .file-wrapper .file-preview .loader {
+        width: 30px;
+        height: 30px;
+    }
+    .loader-wrapper span {
+        font-size: 8.5px;
+    }
+    .audit-form-container .input-group .file-wrapper .file-preview .file-name,
+    .audit-form-container .input-group .file-wrapper .file-preview .file-size {
+        font-size: 10px;
+    }
+    .audit-form-container .input-group .file-wrapper .file-preview .file-name {
+        max-width: 42px;
+    }
+   
+    .audit-form-outer-wrapper .audit-form-btn-container {
+        gap: 9px;
+    }
+    .audit-form-outer-wrapper .audit-form-btn-container button {
+        padding: 6px 18px;
+        font-size: 12px;
+    }
+
+}

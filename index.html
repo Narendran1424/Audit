@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVM Mack Audit</title>
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
 <body>
     <header class="header">
         <div class="header-profile-container">
             <div class="user-profile">
                 <img src="./assets/images/profile.png" class="user-profile-img" alt="profile">
-                <div>  
-                    <h3 class="user-name">John Smith<img src="./assets/images/down-arrow.png" class= "profile-arrow" alt="dropdown-icon"></h3>
+                <div class="user-info">  
+                    <h3 class="user-name">John Smith<img src="./assets/images/down.png" class= "profile-arrow" alt="dropdown-icon"></h3>
                     <p>Chief Executive</p>
                 </div>
             </div>
@@ -28,10 +29,10 @@
         </div>
         <div class="social-container">
             <ul class="social-list">
-                <li><a href="#"><img src="./assets/images/chat.png" alt="chat"></a></li>
-                <li><a href="#"><img src="./assets/images/message.png" alt="message"></a></li>
-                <li><a href="#"><img src="./assets/images/download (1).png" alt="download"></a></li>
-                <li><a href="#"><img src="./assets/images/notification.png" class="notify-img" alt="notification"> <span></span></a></li>
+                <li class="social-item" ><a href="#"><img src="./assets/images/chat.png" alt="chat"></a></li>
+                <li class="social-item" ><a href="#"><img src="./assets/images/message.png" alt="message"></a></li>
+                <li class="social-item" ><a href="#"><img src="./assets/images/download (1).png" alt="download"></a></li>
+                <li class="social-item" ><a href="#"><img src="./assets/images/notification.png" class="notify-img" alt="notification"> <span></span></a></li>
             </ul>
         </div>
         <nav>
@@ -151,7 +152,13 @@
                                         <div class="file-wrapper">
                                             <button for="attach_file" type="button" class="browse-btn">Browse</button>
                                             <div class="file-preview">
-                                                <div id="progressChart" class="chart"></div>
+                                                <div class="loader-wrapper">
+                                                    <div class="loader"></div>
+                                                    <span class="loader-label"></span>
+                                                </div>
+                                                    
+                                               
+                                                
                                                 <p class="file-info"><span class="file-name"></span><span class="file-size"></span><span class="tooltip">ffgfgffgff</span></p>
                                                 <button type="button" class="remove-file"><img src="./assets/images/close.png" class="close-img" alt="close"></button>
                                             </div>
@@ -316,5 +323,6 @@
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
-    <script src="./assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="./assets/js/script.js"></script>
 </body>
