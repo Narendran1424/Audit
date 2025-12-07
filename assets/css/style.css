@@ -999,4 +999,25 @@ header.collapsed+main{
 .audit-form-content-container .audit-form-content-group .form-content-text span{
     color: var(--bg-blue-color);
 }
+.chart-table-outer-wrapper{
+    padding-top: 2.2vw;
+    display: flex;
+}
+.chart-category-table-wrapper .table-wrapper-header{
+    text-transform: uppercase;
+    font-size: 1.05vw;
+    color: var(--bg-blue-color);
+}
+.chart-category-table-wrapper .category-table{
+    border-collapse: collapse;
 
+}
+
+.chart-category-table-wrapper .category-table thead{
+    background-color: var(--input-label-color);
+    padding: 10px;
+    color: var(--input-val-color);
+}
+.chart-category-table-wrapper .category-table thead th{
+    padding: 10px;
+}

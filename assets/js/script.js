@@ -42,6 +42,7 @@ window.addEventListener("resize", updateNavScroll);
 window.addEventListener('resize', applyLayout);
 
 applyLayout();
+updateNavScroll();
 
 const auditForm=document.querySelector(".audit-form-wrapper .audit-form")
 
@@ -118,8 +119,8 @@ browseBtn.addEventListener("click", () => {
 });
 
 fileInput.addEventListener("change", handleFile);
-
-function handleFile(e) {
+let start = null;
+async function handleFile(e) {
   const file = e.target.files[0];
   if (!file) return;
 
@@ -145,8 +146,8 @@ function handleFile(e) {
   void loader.offsetWidth;
   loader.classList.add("active");
 
-    start = null; 
-    requestAnimationFrame(animate);
+  start = null; 
+  requestAnimationFrame(animate);
   inputWrapper.classList.remove("error");
 
   let formatted = formatSize(file.size);
@@ -154,54 +155,142 @@ function handleFile(e) {
   fileNameTooltip.textContent = file.name;
   fileSize.textContent = `(${formatted})`;
 
-  getExcelData();
+  const arrayBuffer = await file.arrayBuffer();
+  const workbook = await JSZip.loadAsync(arrayBuffer);
+
+  const sharedStringsXML = await workbook.file("xl/sharedStrings.xml")?.async("string");
+  const sharedStrings = parseSharedStrings(sharedStringsXML);
+
+  const sheetXML = await workbook.file("xl/worksheets/sheet1.xml")?.async("string");
+  const rows = parseSheetAsJSON(sheetXML, sharedStrings);
+  sessionStorage.setItem("excelData", JSON.stringify(rows));
 }
 
-function getExcelData() {
-  const reader = new FileReader();
+function parseSharedStrings(xml) {
+  if (!xml) return [];
+  const doc = new DOMParser().parseFromString(xml, "text/xml");
+  return [...doc.getElementsByTagName("t")].map(t => t.textContent);
+}
 
-  reader.onload = function(evt) {
-    const data = evt.target.result;
-    const workbook = XLSX.read(data, { type: "array" });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const excelData = XLSX.utils.sheet_to_json(sheet);
-    console.log(excelData);
-    sessionStorage.setItem("excelData", JSON.stringify(excelData));
-  };
+function parseSheetAsJSON(sheetXML, sharedStrings = []) {
+  if (!sheetXML) return [];
 
-  reader.readAsArrayBuffer(fileInput.files[0]);
+  const xmlDoc = new DOMParser().parseFromString(sheetXML, "text/xml");
+  const rowElements = xmlDoc.getElementsByTagName("row");
+
+  const rows = [];
+
+  for (let row of rowElements) {
+    const cells = [];
+    for (let c of row.getElementsByTagName("c")) {
+     
+      const v = c.getElementsByTagName("v")[0];
+
+      let value = v ? v.textContent : "";
+      if (c.getAttribute("t") === "s") value = sharedStrings[Number(value)];
+      cells.push(value);
+    }
+    rows.push(cells);
+  }
+
+  if (rows.length === 0) return [];
+
+  const keys = rows[0];
+  const json = [];
+
+  for (let i = 1; i < rows.length; i++) {
+    const obj = {};
+    rows[i].forEach((cell, index) => {
+      obj[keys[index] || `column${index + 1}`] = cell;
+    });
+    json.push(obj);
+  }
+
+  return json;
+  // return rows;
+}
+
+
+ const storedData = sessionStorage.getItem("excelData");
+if (storedData) {
+  const data = JSON.parse(storedData); 
+  let obj={};
+  data.forEach(d=>{
+    const  category=d.mainCategory;
+    const risk=d.potentialRisk.toLowerCase()
+    if(!obj[category]){
+      obj[category]={low:0,medium:0,high:0}
+    }
+    if(risk==="low"){
+      obj[category].low++;
+    }
+    if(risk==="medium"){
+      obj[category].medium++;
+    }
+    if(risk==="high"){
+      obj[category].high++;
+    }
+  })
+  for(let key in obj){
+    let low=0;
+    low+=obj[key].low;
+    let medium=0;
+    medium+=obj[key].low;
+    let high=0;
+    high+=obj[key].low;
+    obj["Grand Total"]={"low":low,"medium":medium,"high":high}
+  }
+  const catArr=Object.entries(obj).map(([cat,risk])=>({
+
+    "category":cat,
+    "low":risk.low,
+    "medium":risk.medium,
+    "high":risk.high,
+    "total":risk.low+risk.medium+risk.high
+   }
+  )
+  )
+
+  renderCatTable(catArr)
+
+}
+
+function renderCatTable(catArr){
+  const catTable= document.querySelector(".audit-chart-wrapper .chart-category-table-wrapper .category-table");
+  catTable.innerHTML="";
+  catTable.innerHTML=`
+  <thead>
+    <tr>
+      <th rowspan="2">Category</th>
+      <th colspan="4" style="text-align: center;">POTENTIAL RISKS FINDINGS COUNT</th>
+    </tr>
+    <tr>
+      <th class="sub-header">Low</th>
+      <th class="sub-header">Medium</th>
+      <th class="sub-header">High</th>
+      <th class="sub-header">Total</th>
+    </tr>
+  </thead>
+  <tbody class="table-body">
+  </tbody>`
+  const tbody=catTable.querySelector(".table-body");
+  catArr.forEach(data=>{
+    
+    let tr=document.createElement("tr")
+    tr.innerHTML=`<td>${data.category}</td>
+                    <td>${data.low !==0 ? data.low:"-"}</td>
+                    <td>${data.medium !==0 ? data.medium:"-"}</td>
+                    <td>${data.high !==0 ? data.high:"-"}</td>
+                    <td>${data.total !==0 ? data.total:"-"}</td>`
+    tbody.appendChild(tr)
+  })
+  
+
 }
 
 
 
-function getExcelData() {
-    const reader = new FileReader();
 
-    reader.onload = function(evt) {
-        const data = evt.target.result;
-
-
-        const workbook = XLSX.read(data, { type: "array" });
-
-        
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-
-        const excelData = XLSX.utils.sheet_to_json(sheet);
-
-        console.log(excelData);
-
-        sessionStorage.setItem("excelData", JSON.stringify(excelData));
-    };
-
-    reader.readAsArrayBuffer(fileInput.files[0]);
-}
-
-
-
-let start = null;
 const duration = 1000; 
 
 function animate(timestamp) {
@@ -215,7 +304,6 @@ function animate(timestamp) {
     requestAnimationFrame(animate);
   }
 }
-
 
 
 
@@ -441,14 +529,14 @@ function getSelectedDate(datePicker){
 
 function  validDateInput(datePicker){
   const parentEl=datePicker.parentElement;
-        const dateInp=parentEl.querySelector(".date-input");
-        const inputWrapper = dateInp.parentElement;
-        const errorElement = inputWrapper.querySelector(".error");
-        if(dateInp.value==""){
-          inputWrapper.classList.add("error");
-        } else {
-          inputWrapper.classList.remove("error");
-        }
+  const dateInp=parentEl.querySelector(".date-input");
+  const inputWrapper = dateInp.parentElement;
+  const errorElement = inputWrapper.querySelector(".error");
+  if(dateInp.value==""){
+    inputWrapper.classList.add("error");
+  } else {
+    inputWrapper.classList.remove("error");
+  }
 }
 
 
@@ -629,37 +717,4 @@ function displayFormData(){
 document.addEventListener('DOMContentLoaded',()=>{
   displayFormData()
 })
-
-
-
-
-// fileInput.addEventListener("change", (e) => {
-//   const file = e.target.files[0];
-//   if (!file) return;
-
-//   const reader = new FileReader();
-
-//   reader.onload = function(evt) {
-//     const data = evt.target.result;
-
-//     // Parse Excel file
-//     const workbook = XLSX.read(data, { type: "binary" });
-
-//     // Take the first sheet
-//     const sheetName = workbook.SheetNames[0];
-//     const sheet = workbook.Sheets[sheetName];
-
-//     // Convert to JSON
-//     const excelData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-//     // Store the Excel data (JSON string)
-//     sessionStorage.setItem("excelData", JSON.stringify(excelData));
-
-//     // Render your table/chart
-//     renderTable(excelData);
-//     renderChart(excelData);
-//   };
-
-//   reader.readAsBinaryString(file);
-// });
 
