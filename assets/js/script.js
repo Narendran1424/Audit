@@ -209,12 +209,31 @@ function parseSheetAsJSON(sheetXML, sharedStrings = []) {
   return json;
   // return rows;
 }
-
+const tableHeaderHtml=`
+  <thead>
+    <tr>
+      <th rowspan="2">Category</th>
+      <th colspan="4">POTENTIAL RISKS FINDINGS COUNT</th>
+    </tr>
+    <tr>
+      <th class="sub-header">Low</th>
+      <th class="sub-header">Medium</th>
+      <th class="sub-header">High</th>
+      <th class="sub-header">Total</th>
+    </tr>
+  </thead>
+  <tbody class="table-body">
+  </tbody>`
 
  const storedData = sessionStorage.getItem("excelData");
 if (storedData) {
   const data = JSON.parse(storedData); 
-  let obj={};
+  getCatTableData(data)
+ getLocateTableData(data)
+}
+
+function getCatTableData(data){
+ let obj={};
   data.forEach(d=>{
     const  category=d.mainCategory;
     const risk=d.potentialRisk.toLowerCase()
@@ -231,18 +250,17 @@ if (storedData) {
       obj[category].high++;
     }
   })
+  let low=0;
+  let medium=0;
+  let high=0;
   for(let key in obj){
-    let low=0;
     low+=obj[key].low;
-    let medium=0;
     medium+=obj[key].low;
-    let high=0;
     high+=obj[key].low;
-    obj["Grand Total"]={"low":low,"medium":medium,"high":high}
   }
+  obj["grand total"]={"low":low,"medium":medium,"high":high}
   const catArr=Object.entries(obj).map(([cat,risk])=>({
-
-    "category":cat,
+    "category":cat.toLowerCase(),
     "low":risk.low,
     "medium":risk.medium,
     "high":risk.high,
@@ -250,32 +268,16 @@ if (storedData) {
    }
   )
   )
-
   renderCatTable(catArr)
-
 }
+
 
 function renderCatTable(catArr){
   const catTable= document.querySelector(".audit-chart-wrapper .chart-category-table-wrapper .category-table");
   catTable.innerHTML="";
-  catTable.innerHTML=`
-  <thead>
-    <tr>
-      <th rowspan="2">Category</th>
-      <th colspan="4" style="text-align: center;">POTENTIAL RISKS FINDINGS COUNT</th>
-    </tr>
-    <tr>
-      <th class="sub-header">Low</th>
-      <th class="sub-header">Medium</th>
-      <th class="sub-header">High</th>
-      <th class="sub-header">Total</th>
-    </tr>
-  </thead>
-  <tbody class="table-body">
-  </tbody>`
+  catTable.innerHTML=tableHeaderHtml
   const tbody=catTable.querySelector(".table-body");
   catArr.forEach(data=>{
-    
     let tr=document.createElement("tr")
     tr.innerHTML=`<td>${data.category}</td>
                     <td>${data.low !==0 ? data.low:"-"}</td>
@@ -284,13 +286,712 @@ function renderCatTable(catArr){
                     <td>${data.total !==0 ? data.total:"-"}</td>`
     tbody.appendChild(tr)
   })
-  
 
 }
 
+function getLocateTableData(data){
+  console.log(data)
+  let obj={};
+  data.forEach(d=>{
+    const  location=d.Location;
+    const risk=d.potentialRisk.toLowerCase()
+    if(!obj[location]){
+      obj[location]={low:0,medium:0,high:0}
+    }
+    if(risk==="low"){
+      obj[location].low++;
+    }
+    if(risk==="medium"){
+      obj[location].medium++;
+    }
+    if(risk==="high"){
+      obj[location].high++;
+    }
+  })
+  let low=0;
+  let medium=0;
+  let high=0;
+  for(let key in obj){
+    low+=obj[key].low;
+    medium+=obj[key].low;
+    high+=obj[key].low;
+  }
+  obj["Grand Total"]={"low":low,"medium":medium,"high":high}
+  const locArr=Object.entries(obj).map(([loc,risk])=>({
+    "location":loc.toLowerCase(),
+    "low":risk.low,
+    "medium":risk.medium,
+    "high":risk.high,
+    "total":risk.low+risk.medium+risk.high
+   }
+  )
+  )
+  renderLocateTable(locArr)
+}
+
+function renderLocateTable(locArr){
+  const locateTable= document.querySelector(".audit-chart-wrapper .chart-location-table-wrapper .location-table");
+  locateTable.innerHTML="";
+  locateTable.innerHTML=tableHeaderHtml
+  const tbody=locateTable.querySelector(".table-body");
+  locArr.forEach(data=>{
+    let tr=document.createElement("tr")
+    tr.innerHTML=`<td>${data.location}</td>
+                    <td>${data.low !==0 ? data.low:"-"}</td>
+                    <td>${data.medium !==0 ? data.medium:"-"}</td>
+                    <td>${data.high !==0 ? data.high:"-"}</td>
+                    <td>${data.total !==0 ? data.total:"-"}</td>`
+    tbody.appendChild(tr)
+    
+  })
+  const catTableBodyRow= document.querySelectorAll(".audit-chart-wrapper .chart-category-table-wrapper .category-table .table-body tr");
+  const locateTableBodyRow= document.querySelectorAll(".audit-chart-wrapper .chart-location-table-wrapper .location-table .table-body tr");
+  
+  if(catTableBodyRow.length > locateTableBodyRow.length){
+    const row= catTableBodyRow.length-locateTableBodyRow.length 
+    const lastRow = locateTableBodyRow[locateTableBodyRow.length - 1];
+    for(let i=0;i<row;i++){
+      const tr=document.createElement("tr")
+      tr.innerHTML=`
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>`
+      tbody.insertBefore(tr, lastRow);
+    }
+  }
+}
+const riskChartContainer=document.querySelector(".audit-chart-wrapper .risk-chart-wrapper #risk-chart-container");
+
+Highcharts.chart(riskChartContainer, {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false,
+        height: '80%'
+    },
+
+    title: {
+        text: ''
+    },
+
+    pane: {
+        startAngle: -90,
+        endAngle: 89.9,
+        background: null,
+    },
+
+    yAxis: {
+        min: 0,
+        max: 100,
+        tickWidth: 0,
+        minorTickInterval: null,
+        labels: {
+          enabled:false,
+        },
+        lineWidth: 0,
+        plotBands: [{
+            from: 0,
+            to: 50,
+            color:  '#fe0000', 
+            thickness: 25,
+            borderRadius: '0%'
+        }, {
+            from: 50,
+            to: 75,
+            color: ' #fed700', 
+            thickness: 25,
+            borderRadius: '0%'
+        }, {
+            from: 75,
+            to: 100,
+            color: '#00af50', 
+            thickness: 25,
+            borderRadius: '0%'
+        }]
+    },
+
+    series: [{
+        name: 'Speed',
+        data: [80],
+        tooltip: {
+            enabled:false
+        },
+        dataLabels: {
+            format: '{y} %',
+            borderWidth: 0,
+            color: '#333333',
+            style: {
+                fontSize: '16px'
+            }
+        },
+        dial: {
+          radius: '85%',
+          backgroundColor: '#333333',
+          baseWidth:5,
+          baseLength: '0%',
+          rearLength: '-7%',
+          borderWidth: 0,
+          borderRadius: '50%'
+        },
+        pivot: {
+          backgroundColor: '#333333',
+          radius: 4,
+          borderWidth: 0
+
+        }
+    }]
+});
+
+const mainChartContainer=document.querySelector(".audit-chart-wrapper .main-chart-wrapper #main-chart-container")
+Highcharts.chart(mainChartContainer, {
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 0,
+        zooming: {
+            type: 'xy'
+        }
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    title: {
+        text: ''
+    },
+
+    subtitle: {
+        text: ''
+    },
+
+    accessibility: {
+        point: {
+            valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
+                'sugar: {point.y}g, obesity: {point.z}%.'
+        }
+    },
+
+    xAxis: {
+        gridLineWidth: 0,
+        title: {
+            text: 'Total Weighted Score'
+        },
+        labels: {
+            format: '{value}'
+        },
+        tickWidth:0,
+    
+    },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'Total Findings'
+        },
+        labels: {
+            format: '{value}'
+        },
+        maxPadding: 0.2,
+  
+       
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
+            '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
+            '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
+            '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }
+    },
+
+    series: [{
+        data: [
+            { x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium' },
+            { x: 86.5, y: 102.9, z: 14.7, name: 'DE', country: 'Germany' },
+            { x: 80.8, y: 91.5, z: 15.8, name: 'FI', country: 'Finland' },
+            { x: 80.4, y: 102.5, z: 12, name: 'NL', country: 'Netherlands' },
+            { x: 80.3, y: 86.1, z: 11.8, name: 'SE', country: 'Sweden' },
+            { x: 78.4, y: 70.1, z: 16.6, name: 'ES', country: 'Spain' },
+            { x: 74.2, y: 68.5, z: 14.5, name: 'FR', country: 'France' },
+            // { x: 73.5, y: 83.1, z: 10, name: 'NO', country: 'Norway' },
+            { x: 71, y: 93.2, z: 24.7, name: 'UK', country: 'United Kingdom' },
+            { x: 69.2, y: 57.6, z: 10.4, name: 'IT', country: 'Italy' },
+            { x: 68.6, y: 20, z: 16, name: 'RU', country: 'Russia' },
+            {
+                x: 65.5,
+                y: 126.4,
+                z: 35.3,
+                name:
+                    'US',
+                country: 'United States'
+            },
+            { x: 65.4, y: 50.8, z: 28.5, name: 'HU', country: 'Hungary' },
+            { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' },
+            { x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand' }
+        ],
+        colorByPoint: true
+    }],
+    credits:{
+      enabled:false
+    }
+
+});
+
+//Findings Container
+const findingmainChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #main-chart-container");
+const findingMainLabels=["Document Management","Crew Management","ghh","ghgh","ghghdg","dfgd","Document Management","Crew Management","ghh","ghghdg"]
+const findingMainData=[14,28,19,33,23,45,14,28,19,33]
+Highcharts.chart(findingmainChart, {
+            chart: {
+                polar: true,
+                type: 'area'
+            },
+            title: {
+                text: null
+            },
+            pane: {
+                size: '60%'
+            },
+            xAxis: {
+                categories: findingMainLabels,
+                tickmarkPlacement: 'on',
+                lineWidth: 0,
+                labels: {
+                    style: {
+                        fontSize: '16px'
+                    }
+                }
+            },
+            credits:{
+              enabled:false,
+            },
+            yAxis: {
+                lineWidth: 0,
+                min: 10,
+                max: 60,
+                tickInterval:10
+            },
+            tooltip: {
+                shared: true,
+                pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}</b><br/>'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name: 'Score',
+                data: findingMainData,
+                pointPlacement: 'on',
+                color: 'rgba(102, 126, 234, 0.5)',
+                fillColor: 'rgba(102, 126, 234, 0.3)',
+                lineWidth: 2,
+                marker: {
+                    enabled: true,
+                    radius: 4,
+                    fillColor: '#667eea'
+                }
+            }],
+});
+
+const findingSubChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #sub-chart-container");
+
+Highcharts.chart(findingSubChart, {
+    chart: {
+        type: 'column',
+    },
+    title: {
+        text: '',
+        align: 'left'
+    },
+    xAxis: {
+        categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United'],
+        lineWidth: 0,
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: ''
+        },
+        stackLabels: {
+            enabled: false
+        },
+        plotLineWidth: 0,
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        headerFormat: '<b>{category}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    credits: {
+        enabled: false,
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: true
+            },
+            borderWidth: 0 
+        }
+    },
+    series: [{
+        name: 'Series 1',
+        data: [
+            { y: 3, color: "#ff7884" },
+            { y: 5, color: "#ff7884" },
+            { y: 1, color: "#f8c06d" },
+        ]
+    }, {
+        name: 'Series 2',
+        data: [
+            { y: 14, color: "#f8c06d" },
+            { y: 8, color: "#70ffb0" },
+            { y: 8, color: "#70ffb0" },
+            { y: 12, color: "#f8c06d" }
+        ]
+    }, {
+        name: 'Series 3',
+        data: [
+            { y: 2, color: "#70ffb0" },
+            { y: 2, color: "#70ffb0" },
+            { y: 6, color: "#ff7884" },
+            { y: 3, color: "#ff7884" }
+        ]
+    }]
+});
+
+const findingsLocationChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #location-chart-container");
 
 
+Highcharts.chart(findingsLocationChart, {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
 
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: ''
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+    
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: ' +
+            '<b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [
+        {
+            name: 'Browsers',
+            colorByPoint: true,
+            stacking: 'normal',
+            data: [
+                {
+                    name: 'Chrome',
+                    y: 63.06,
+                    
+                },
+                {
+                    name: 'Safari',
+                    y: 19.84,
+                    
+                },
+                {
+                    name: 'Firefox',
+                    y: 4.18,
+
+                },
+                {
+                    name: 'Edge',
+                    y: 4.12,
+                 
+                },
+                {
+                    name: 'Opera',
+                    y: 2.33,
+             
+                },
+                {
+                    name: 'Internet Explorer',
+                    y: 0.45,
+                    
+                },
+                {
+                    name: 'Other',
+                    y: 1.582,
+                   
+                }
+            ]
+        }
+    ],
+    credits:{
+      enabled:false
+    }
+});
+
+//Weighted Container
+ 
+
+const weightedmainChart=document.querySelector(".weighted-outer-wrapper .weighted-inner-wrapper .weighted-chart-container #main-chart-container");
+const weightedMainLabels=["Document Management","Crew Management","ghh","ghgh","ghghdg","dfgd","Document Management","Crew Management","ghh","ghghdg"]
+const weightedMainData=[14,28,19,33,23,45,14,28,19,33]
+Highcharts.chart(weightedmainChart, {
+            chart: {
+                polar: true,
+                type: 'area'
+            },
+            title: {
+                text: null
+            },
+            pane: {
+                size: '60%'
+            },
+            xAxis: {
+                categories: findingMainLabels,
+                tickmarkPlacement: 'on',
+                lineWidth: 0,
+                labels: {
+                    style: {
+                        fontSize: '16px'
+                    }
+                }
+            },
+            credits:{
+              enabled:false,
+            },
+            yAxis: {
+                lineWidth: 0,
+                min: 10,
+                max: 60,
+                tickInterval:10
+            },
+            tooltip: {
+                shared: true,
+                pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}</b><br/>'
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                name: 'Score',
+                data: findingMainData,
+                pointPlacement: 'on',
+                color: 'rgba(102, 126, 234, 0.5)',
+                fillColor: 'rgba(102, 126, 234, 0.3)',
+                lineWidth: 2,
+                marker: {
+                    enabled: true,
+                    radius: 4,
+                    fillColor: '#667eea'
+                }
+            }],
+});
+
+const weightedSubChart=document.querySelector(".weighted-outer-wrapper .weighted-inner-wrapper .weighted-chart-container #sub-chart-container");
+
+Highcharts.chart(weightedSubChart, {
+    chart: {
+        type: 'column',
+    },
+    title: {
+        text: '',
+        align: 'left'
+    },
+    xAxis: {
+        categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United'],
+        lineWidth: 0,
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: ''
+        },
+        stackLabels: {
+            enabled: false
+        },
+        plotLineWidth: 0,
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        headerFormat: '<b>{category}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    credits: {
+        enabled: false,
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: true
+            },
+            borderWidth: 0 
+        }
+    },
+    series: [{
+        name: 'Series 1',
+        data: [
+            { y: 3, color: "#e73845" },
+            { y: 5, color: "#e73845" },
+            { y: 1, color: "#ff9f1d" },
+        ]
+    }, {
+        name: 'Series 2',
+        data: [
+            { y: 14, color: "#ff9f1d" },
+            { y: 8, color: "#00af50" },
+            { y: 8, color: "#00af50" },
+            { y: 12, color: "#ff9f1d" }
+        ]
+    }, {
+        name: 'Series 3',
+        data: [
+            { y: 2, color: "#00af50" },
+            { y: 2, color: "#00af50" },
+            { y: 6, color: "#e73845" },
+            { y: 3, color: "#e73845" }
+        ]
+    }]
+});
+
+const weightedLocationChart=document.querySelector(".weighted-outer-wrapper .weighted-inner-wrapper .weighted-chart-container #location-chart-container");
+
+
+Highcharts.chart(weightedLocationChart, {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: ''
+        },
+        dataLabels:{
+          enabled:true
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+    
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: ' +
+            '<b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [
+        {
+            name: 'Browsers',
+            colorByPoint: true,
+            stacking: 'normal',
+            data: [
+                {
+                    name: 'Chrome',
+                    y: 63.06,
+                    
+                },
+                {
+                    name: 'Safari',
+                    y: 19.84,
+                    
+                },
+                {
+                    name: 'Firefox',
+                    y: 4.18,
+
+                },
+                {
+                    name: 'Edge',
+                    y: 4.12,
+                 
+                },
+                {
+                    name: 'Opera',
+                    y: 2.33,
+             
+                },
+                {
+                    name: 'Internet Explorer',
+                    y: 0.45,
+                    
+                },
+                {
+                    name: 'Other',
+                    y: 1.582,
+                   
+                },
+                 
+           
+            ],
+            states: {
+              hover: {
+                  enabled: false 
+              }
+          }
+        }
+    ],
+    credits:{
+      enabled:false
+    }
+});
 const duration = 1000; 
 
 function animate(timestamp) {
