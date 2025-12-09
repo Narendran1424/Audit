@@ -58,7 +58,7 @@
                 <button class="menu-btn" type="button"><img src="./assets/images/menu.png" alt="menu"></button>
                 <h2 class="main-header">Audit Analytic Report</h2>
             </div>
-            <img class="logo" src="./assets/images/logo.png" alt="logo">
+            <img class="logo active" src="./assets/images/logo.png" alt="logo">
         </div>
         <section class="audit-datails-wrapper">
             <h3 class="audit-detail-header">Audit Details</h3>
@@ -293,7 +293,7 @@
                             <div class="box"></div>
                         </div>
                         <div class="chart-header-btn-container">
-                            <button type="button"><img src="./assets/images/export.png" alt="export"></button>
+                            <button type="button" class="export-btn"><img src="./assets/images/export.png" alt="export"></button>
                             <button type="button" class="close-chart-btn"><img src="./assets/images/close.png" alt="close"></button>
                         </div>
                     </div>
@@ -354,42 +354,69 @@
                                     <P>Location Category</P>
                                 </div>
                             </div>
-                            <div id="main-chart-container" class="main-chart-container">
+                            <div  class="main-chart-container">
+                                <div id="main-chart-container">
+                                </div>
                             </div>
+                            
                         </div>
                         <div class="main-chart-data-container">
                             <img src="./assets/images/hand.png" class="hand-img" alt="hand">
                             <div class="main-chart-data-header">
                                 <div>
                                     <img src="./assets/images/high.png" alt="high">
-                                    <p>High (<-50 )</p>
+                                    <p>High ( &lt; &hyphen;50 )</p>
                                 </div>
                                 <div>
                                     <img src="./assets/images/medium.png" alt="medium">
-                                    <p>Medium (<-20 ~ 49)</p>
+                                    <p>Medium ( &lt; &hyphen;20 &#126; 49)</p>
                                 </div>
                                 <div>
                                     <img src="./assets/images/low.png" alt="low">
-                                    <p>Low (> -19 )</p>
+                                    <p>Low ( &gt; &hyphen;19 )</p>
                                 </div>
                             </div>
                             <div class="main-chart-data-body">
-                                <div>
-                                    <p>Total CheckList Items <span>:600</span></p>
-                                    <p>Verified Items <span>:567</span></p>
-                                </div>
-                                <div>
-                                    <p>Finding Weighted score <span>:600</span></p>
+                                <div class="main-chart-data-inner-wrapper">
+                                    <div>
+                                        <p class="chart-data-label">Total CheckList Items </p>
+                                        <p class="chart-data-value">: 600</p>
+                                    </div>
+                                    <div>
+                                        <p class="chart-data-label">Verified Items </p>
+                                        <p class="chart-data-value">: 567</p>
+                                    </div>
                                     
                                 </div>
-                                <div>
-                                    <p>Inspection Score <span>:567 (Verified Items + Finding Weighted score ) </span></p>
-                                     <p>Inspection Performance  <span>:567</span></p>
+                                <div class="main-chart-data-inner-wrapper">
+                                    <div>
+                                        <p class="chart-data-label">Finding Weighted score </p>
+                                        <p class="chart-data-value"> : 600</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>Vessels Potential Risk<span>:High (Weighted Score is <-50 for the shared case) </span></p>
+                                <div class="main-chart-data-inner-wrapper">
+                                    <div>
+                                        
+                                        <p class="chart-data-label">Inspection Score </p>
+                                        <p class="chart-data-value"> :567 (Verified Items + Finding Weighted score ) </p>
+                                       
+                                        
+                                    </div>
+                                    <div>
+                                        <p class="chart-data-label">Inspection Performance </p>
+                                        <p class="chart-data-value"> :567</p>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="main-chart-data-inner-wrapper">
+                                    <div>
+                                        <p class="chart-data-label">Vessels Potential Risk</p>
+                                        <p class="chart-data-value">High (Weighted Score is &lt;-50 for the shared case)</p>
 
+                                    </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -412,21 +439,21 @@
                             </div>
                         </div>
                         <div class="findings-inner-wrapper">
-                            <div class="findings-chart-container">
+                            <div class="findings-chart-container main-chart-wrapper">
                                 <h3 class="main-chart-header findings-chart-header">
                                     Main Category
                                 </h3>
                                 <div id="main-chart-container" class="main-chart-container">
                                 </div>
                             </div>
-                            <div class="findings-chart-container">
+                            <div class="findings-chart-container sub-chart-wrapper">
                                 <h3 class="sub-chart-header findings-chart-header">
                                     1st Sub Category
                                 </h3>
                                 <div id="sub-chart-container" class="sub-chart-container">
                                 </div>
                             </div>
-                            <div class="findings-chart-container">
+                            <div class="findings-chart-container location-chart-wrapper">
                                 <h3 class="location-chart-header findings-chart-header">
                                     Location Wise
                                 </h3>
@@ -455,21 +482,21 @@
                             </div>
                         </div>
                         <div class="weighted-inner-wrapper">
-                            <div class="weighted-chart-container">
+                            <div class="weighted-chart-container main-chart-wrapper">
                                 <h3 class="main-chart-header weighted-chart-header">
                                     Main Category
                                 </h3>
                                 <div id="main-chart-container" class="main-chart-container">
                                 </div>
                             </div>
-                            <div class="weighted-chart-container">
+                            <div class="weighted-chart-container sub-chart-wrapper">
                                 <h3 class="sub-chart-header weighted-chart-header">
                                     1 st Sub Category
                                 </h3>
                                 <div id="sub-chart-container" class="sub-chart-container">
                                 </div>
                             </div>
-                            <div class="weighted-chart-container">
+                            <div class="weighted-chart-container location-chart-wrapper">
                                 <h3 class="location-chart-header weighted-chart-header">
                                     Location Wise
                                 </h3>
@@ -484,18 +511,17 @@
                         <table class="analytic-table">
                             <thead>
                                 <tr>
-                                    <th>Detailed Sub Category Wise</th>
-                                    <th colspan="3">POTENTIAL RISKS FINDINGS COUNT</th>
-                                    <th>Weighted<br>Score</th>
-                                    <th colspan="2">FINDING COUNTS</th>
+                                    <th rowspan="2" class="col-header">Detailed Sub Category Wise</th>
+                                    <th  colspan="3 ">POTENTIAL RISKS FINDINGS COUNT</th>
+                                    <th rowspan="2" class="col-header">Weighted Score</th>
+                                    <th colspan="2" >FINDING COUNTS</th>
                                 </tr>
                                 <tr>
-                                    <th></th>
-                                    <th>Low</th>
-                                    <th>Medium</th>
-                                    <th>High</th>
-                                    <th></th>
-                                    <th>Normal</th>
+                                  
+                                    <th class="sub-header">Low</th>
+                                    <th class="sub-header">Medium</th>
+                                    <th class="sub-header">High</th>
+                                    <th class="sub-header" >Normal</th>
                                     <th>Focus</th>
                                 </tr>
                             </thead>
