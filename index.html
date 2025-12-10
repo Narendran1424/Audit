@@ -305,10 +305,10 @@
                                 <div class="form-content-text"><p>Chief Engineer</p> <span data-formVal="Chief Engineer"></span></div>
                                 <div class="form-content-text"><p>Date of Inspection</p> <span data-formVal="Date of Inspection"></span></div>
                                 <div class="form-content-text"><p>Port Of Inspection</p> <span data-formVal="Port Of Inspection"></span></div>
-                                <div class="form-content-text"><p>Inspector Name</p><span data-formVal="Inspector Name"></span></div>
+                                <div class="form-content-text"><p>Inspector Namer</p><span data-formVal="Inspector Name"></span></div>
                             </div>
                             <div class="audit-form-content-group">
-                                <div class="form-content-text"><p>Date Of Build </p><span data-formVal="Date Of Build"></span></div>
+                                <div class="form-content-text"><p>Date Of build </p><span data-formVal="Date Of Build"></span></div>
                                 <div class="form-content-text"><p>Vessel Type</p> <span data-formVal="Vessel Type"></span></div>
                                 <div class="form-content-text"><p>Ship Yard</p> <span data-formVal="Ship Yard"></span></div>
                                 <div class="form-content-text"><p>Ship Yard Country</p> <span data-formVal="Ship Yard Country"></span></div>
@@ -365,54 +365,69 @@
                             <div class="main-chart-data-header">
                                 <div>
                                     <img src="./assets/images/high.png" alt="high">
-                                    <p>High ( &lt; &hyphen;50 )</p>
+                                    <p>High (&lt; &hyphen;50)</p>
                                 </div>
                                 <div>
                                     <img src="./assets/images/medium.png" alt="medium">
-                                    <p>Medium ( &lt; &hyphen;20 &#126; 49)</p>
+                                    <p>Medium (&hyphen;20 &#126; &hyphen;49)</p>
                                 </div>
                                 <div>
                                     <img src="./assets/images/low.png" alt="low">
-                                    <p>Low ( &gt; &hyphen;19 )</p>
+                                    <p>Low (&gt; &hyphen;19)</p>
                                 </div>
                             </div>
                             <div class="main-chart-data-body">
                                 <div class="main-chart-data-inner-wrapper">
-                                    <div>
+                                    <div class="main-chart-data-inner-container">
                                         <p class="chart-data-label">Total CheckList Items </p>
-                                        <p class="chart-data-value">: 600</p>
+                                        <div class="chart-data-value">
+                                            
+                                            <p>: 600</p>
+                                        </div>
                                     </div>
-                                    <div>
+                                    <div class="main-chart-data-inner-container">
                                         <p class="chart-data-label">Verified Items </p>
-                                        <p class="chart-data-value">: 567</p>
+                                        <div class="chart-data-value">
+                                            <p>: 567</p>
+                                        </div>
+
                                     </div>
                                     
                                 </div>
                                 <div class="main-chart-data-inner-wrapper">
-                                    <div>
+                                    <div class="main-chart-data-inner-container">
                                         <p class="chart-data-label">Finding Weighted score </p>
-                                        <p class="chart-data-value"> : 600</p>
+                                        <div class="chart-data-value">
+                                            <p>: 600</p>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="main-chart-data-inner-wrapper">
-                                    <div>
-                                        
+                                    <div class="main-chart-data-inner-container">
+                                    
                                         <p class="chart-data-label">Inspection Score </p>
-                                        <p class="chart-data-value"> :567 (Verified Items + Finding Weighted score ) </p>
-                                       
-                                        
+                                        <div class="chart-data-value">
+                                            <p>: 567 </p>
+                                            <p>( Verified Items + Finding Weighted score) </p>
+                                        </div>
                                     </div>
-                                    <div>
+                                    <div class="main-chart-data-inner-container">
                                         <p class="chart-data-label">Inspection Performance </p>
-                                        <p class="chart-data-value"> :567</p>
+                                        <div class="chart-data-value"><p > : 567</p></div>
                                     </div>
                                     
                                 </div>
                                 
                                 <div class="main-chart-data-inner-wrapper">
-                                    <div>
+                                    <div class="main-chart-data-inner-container">
+
                                         <p class="chart-data-label">Vessels Potential Risk</p>
-                                        <p class="chart-data-value">High (Weighted Score is &lt;-50 for the shared case)</p>
+                                        <div class="chart-data-value">
+                                            <p>High </p>
+                                            <p>(Weighted Score is &lt;-50 for the shared case)</p>
+                                        </div>
+                                        
 
                                     </div>
                                 </div>
@@ -512,9 +527,9 @@
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="col-header">Detailed Sub Category Wise</th>
-                                    <th  colspan="3 ">POTENTIAL RISKS FINDINGS COUNT</th>
-                                    <th rowspan="2" class="col-header">Weighted Score</th>
-                                    <th colspan="2" >FINDING COUNTS</th>
+                                    <th  colspan="3" class="top-header right-border">POTENTIAL RISKS FINDINGS COUNT</th>
+                                    <th rowspan="2" class="col-header">Weighted <br> Score</th>
+                                    <th colspan="2" class="top-header">FINDING COUNTS</th>
                                 </tr>
                                 <tr>
                                   

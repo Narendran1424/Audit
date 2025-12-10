@@ -213,7 +213,7 @@ const tableHeaderHtml=`
   <thead>
     <tr>
       <th rowspan="2" class="col-header">Category</th>
-      <th colspan="4">POTENTIAL RISKS FINDINGS COUNT</th>
+      <th colspan="4" class="top-header">POTENTIAL RISKS FINDINGS COUNT</th>
     </tr>
     <tr>
       <th class="sub-header">Low</th>
@@ -268,6 +268,13 @@ function getCatTableData(data){
    }
   )
   )
+  const last = catArr.pop(); 
+
+  catArr.sort((a, b) => 
+    a.category.toLowerCase().localeCompare(b.category.toLowerCase())
+  );
+
+  catArr.push(last);
   renderCatTable(catArr)
 }
 
@@ -326,6 +333,13 @@ function getLocateTableData(data){
    }
   )
   )
+  const last = locArr.pop(); 
+
+  locArr.sort((a, b) => 
+    a.location.toLowerCase().localeCompare(b.location.toLowerCase())
+  );
+
+  locArr.push(last);
   renderLocateTable(locArr)
 }
 
@@ -368,294 +382,418 @@ function vwToPx(vw) {
     return (vw / 100) * window.innerWidth;
 }
 
-const riskChart=Highcharts.chart(riskChartContainer, {
+function getPlotBands() {
+    const t = vwToPx(1.302);
+    return [
+        { from: 0, to: 50, color: '#fe0000', thickness: t },
+        { from: 50, to: 75, color: '#fed700', thickness: t },
+        { from: 75, to: 100, color: '#00af50', thickness: t }
+    ];
+}
 
+const riskChart = Highcharts.chart(riskChartContainer, {
     chart: {
         type: 'gauge',
         plotBackgroundColor: null,
         plotBackgroundImage: null,
         plotBorderWidth: 0,
         plotShadow: false,
-        height: '80%',
+        center: ['50%', '50%'],
+        size: '85%',
+        height: '95%'
     },
-    credits:{
-      enabled:false,
-    },
-    title: {
-        text: ''
-    },
-
+    credits: { enabled: false },
+    title: { text: '' },
     pane: {
         startAngle: -90,
         endAngle: 89.9,
-        background: null,
+        background: null
     },
-
     yAxis: {
         min: 0,
         max: 100,
         tickWidth: 0,
         minorTickInterval: null,
-        labels: {
-          enabled:false,
-        },
+        labels: { enabled: false },
         lineWidth: 0,
-        plotBands: [{
-            from: 0,
-            to: 50,
-            color:  '#fe0000', 
-            thickness: vwToPx(1.302),
-            borderRadius: '0%'
-        }, {
-            from: 50,
-            to: 75,
-            color: ' #fed700', 
-            thickness: vwToPx(1.302),
-            borderRadius: '0%'
-        }, {
-            from: 75,
-            to: 100,
-            color: '#00af50', 
-            thickness: vwToPx(1.302),
-            borderRadius: '0%'
-        }]
+        plotBands: getPlotBands()
     },
-
     series: [{
         name: 'Speed',
         data: [80.4],
-        tooltip: {
-            enabled:false
-        },
+        tooltip: { enabled: false },
         dataLabels: {
-          useHTML:true,
-            format: '{y}',
+            useHTML: true,
+            format: '<div class="risk-label">{y}</div>',
             borderWidth: 0,
             color: '#333333',
-             y: 1
+            y: -3
         },
         dial: {
-          radius: '85%',
-          backgroundColor: '#333333',
-          baseWidth:5,
-          baseLength: '0%',
-          rearLength: '-7%',
-          borderWidth: 0,
-          borderRadius: '50%'
+            radius: '80%',
+            backgroundColor: '#333333',
+            baseWidth: 6,
+            baseLength: '0%',
+            rearLength: '-7%',
+            borderWidth: 0,
+            borderRadius: '50%'
         },
         pivot: {
-          backgroundColor: '#333333',
-          radius: 4,
-          borderWidth: 0
-
+            backgroundColor: '#333333',
+            radius: 4,
+            borderWidth: 0
         }
     }]
 });
 
+window.addEventListener('resize', () => {
+    riskChart.update({
+        yAxis: {
+            plotBands: getPlotBands()
+        }
+    });
+    riskChart.reflow();
+});
+//     chart: {
+//         type: 'bubble',
+//         plotBorderWidth: 0,
+//         zooming: {
+//             type: 'xy'
+//         },
+//     },
 
-const mainChartContainer=document.querySelector(".audit-chart-wrapper .main-chart-wrapper #main-chart-container")
-Highcharts.chart(mainChartContainer, {
+//     legend: {
+//         enabled: false
+//     },
+
+//     title: {
+//         text: ''
+//     },
+
+//     subtitle: {
+//         text: ''
+//     },
+
+//     accessibility: {
+//         point: {
+//             valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
+//                 'sugar: {point.y}g, obesity: {point.z}%.'
+//         }
+//     },
+
+//     xAxis: {
+//       min:10,
+//       max:150,
+//       tickInterval:10,
+//         gridLineWidth: 0,
+//         title: {
+//             text: 'Total Weighted Score',
+//             y:8
+//         },
+//         labels: {
+//             format: '{value}',
+//             useHTML:true,
+//         },
+//         tickWidth:0,
+//         lineWidth:0,
+       
+//     },
+
+//     yAxis: {
+//       min:10,
+//       max:70,
+//       startOnTick: false,
+//       endOnTick: false,
+//         title: {
+//             text: 'Total Findings',
+//             x:-8
+//         },
+//         labels: {
+//             format: '{value}',
+//             useHTML:true,
+//         },
+//         maxPadding: 0.2,
+//         tickPixelInterval: vwToPx(3)                    
+//     },
+
+//     tooltip: {
+//         useHTML: true,
+//         outside: true,
+//         headerFormat: '<table>',
+//         pointFormat: '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
+//             '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
+//             '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
+//             '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
+//         footerFormat: '</table>',
+//         followPointer: true,
+//         style:{
+//           "z-index":2
+//         }
+//     },
+
+   
+//     plotOptions: {
+//     series: {
+//         dataLabels: {
+//             enabled: true,
+//             useHTML: true,
+//             format: '<div class="bubble-label">{point.name}</div>',
+//             style: {
+//                 opacity: 1
+//             }
+//         }
+//     },
+
+//     bubble: {
+//       marker: {
+//             fillOpacity: 1,   
+        
+//             lineWidth: 0,
+//             lineColor: "transparent",
+//         },
+//         states: {
+//             hover: {
+//                 enabled: false,
+//                 lineWidth: 0,    
+//                 borderWidth: 0,    
+//             },
+//             inactive: { opacity: 1 } 
+//         }
+//     }
+// },
+
+//     series: [{
+//         data: [
+//             { x: 20, y: 60, z: 13.8, name: 'BE', country: 'Belgium', color:"#93e498"},
+//             { x: 18, y: 64, z: 14.7, name: 'DE', country: 'Germany',color:"#457b9d"},
+//             { x: 30, y: 91.5, z: 15.8, name: 'FI', country: 'Finland',color:"#93e498",} , 
+//             { x: 60, y: 78, z: 11.8, name: 'SE', country: 'Sweden',color:"#457b9d"} ,
+//             { x: 30, y: 56, z: 16.6, name: 'ES', country: 'Spain',color:"#93e498", },
+//             { x: 85, y: 43, z: 14.5, name: 'FR', country: 'France',color:"#457b9d" },
+//             { x: 76, y: 27, z: 24.7, name: 'UK', country: 'United Kingdom',color:"#93e498", },
+//             { x: 64, y: 89, z: 16, name: 'RU', country: 'Russia',color:"#457b9d" },
+//             {
+//                 x: 65.5,
+//                 y: 45,
+//                 z: 35.3,
+//                 name:
+//                     'US',
+//                 country: 'United States',color:"#93e498",
+//             },
+//             { x: 116, y: 50, z: 28.5, name: 'HU', country: 'Hungary',color:"#457b9d" },
+//             { x: 94, y: 51, z: 15.4, name: 'PT', country: 'Portugal',color:"#93e498", },
+//             { x: 104, y: 48, z: 31.3, name: 'NZ', country: 'New Zealand',color:"#457b9d" }
+//         ],
+  
+//     }],
+//     credits:{
+//       enabled:false
+//     },
+//     responsive: {
+//     rules: [{
+//         condition: {
+//             minWidth: 1500   
+//         },
+//         chartOptions: {
+//             chart: {
+//                 spacing: [5, 5, 5, 5],   
+//                 margin: [10, 10, 10, 10]
+//             },
+//             xAxis: {
+//                 maxPadding: 0.05,
+//                 minPadding: 0.05,
+//                 labels: {
+//                     style: {
+//                         fontSize: '9px'
+//                     }
+//                 }
+//             },
+//             yAxis: {
+//                 maxPadding: 0.05,
+//                 minPadding: 0.05,
+//                 labels: {
+//                     style: {
+//                         fontSize: '9px'
+//                     }
+//                 }
+//             },
+//             plotOptions: {
+//                 bubble: {
+//                     minSize: 5,
+//                     maxSize: 20 
+//                 }
+//             }
+//         }
+//     }] 
+//   }
+
+// });
+
+//Findings Container
+const mainChartContainer = document.querySelector(".audit-chart-wrapper .main-chart-wrapper #main-chart-container");
+
+const bubbleChart = Highcharts.chart(mainChartContainer, {
     chart: {
         type: 'bubble',
         plotBorderWidth: 0,
-        zooming: {
-            type: 'xy'
-        },
+        zooming: { type: 'xy' },
     },
-
-    legend: {
-        enabled: false
-    },
-
-    title: {
-        text: ''
-    },
-
-    subtitle: {
-        text: ''
-    },
-
+    legend: { enabled: false },
+    title: { text: '' },
+    subtitle: { text: '' },
     accessibility: {
         point: {
-            valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
-                'sugar: {point.y}g, obesity: {point.z}%.'
+            valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, sugar: {point.y}g, obesity: {point.z}%.'
         }
     },
-
     xAxis: {
-      min:10,
-      max:150,
-      tickInterval:10,
+        min: 10,
+        max: 150,
+        tickInterval: 10,
         gridLineWidth: 0,
-        title: {
-            text: 'Total Weighted Score',
-            y:1
-        },
-        labels: {
-            format: '{value}',
-            useHTML:true,
-        },
-        tickWidth:0,
-        lineWidth:0,
-       
+        title: { text: 'Total Weighted Score', y: 8 },
+        labels: { format: '{value}', useHTML: true },
+        tickWidth: 0,
+        lineWidth: 0,
     },
-
     yAxis: {
-      min:10,
-      max:70,
-      startOnTick: false,
-      endOnTick: false,
-        title: {
-            text: 'Total Findings',
-            x:-2
-        },
-        labels: {
-            format: '{value}',
-            useHTML:true,
-        },
+        min: 10,
+        max: 70,
+        startOnTick: false,
+        endOnTick: false,
+        title: { text: 'Total Findings', x: -8 },
+        labels: { format: '{value}', useHTML: true },
         maxPadding: 0.2,
-        tickPixelInterval: vwToPx(3)                    
+        tickPixelInterval: vwToPx(3)
     },
-
     tooltip: {
         useHTML: true,
+        outside: true,
         headerFormat: '<table>',
         pointFormat: '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
             '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
             '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
             '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
         footerFormat: '</table>',
-        followPointer: true
+        followPointer: true,
+        style:{ "z-index": 2 }
     },
-
     plotOptions: {
         series: {
             dataLabels: {
                 enabled: true,
-                useHTML:true,
-                format: '{point.name}'
+                useHTML: true,
+                format: '<div class="bubble-label">{point.name}</div>',
+                style: { opacity: 1 }
             }
-
+        },
+        bubble: {
+            marker: {
+                fillOpacity: 1,
+                lineWidth: 0,
+                lineColor: "transparent"
+            },
+            states: {
+                hover: { enabled: false, lineWidth: 0, borderWidth: 0 },
+                inactive: { opacity: 1 }
+            }
         }
     },
-
     series: [{
         data: [
-            { x: 20, y: 60, z: 13.8, name: 'BE', country: 'Belgium'},
-            { x: 18, y: 64, z: 14.7, name: 'DE', country: 'Germany'},
-            { x: 30, y: 91.5, z: 15.8, name: 'FI', country: 'Finland'} ,
-            { x: 70, y: 44, z: 12, name: 'NL', country: 'Netherlands'}, 
-            { x: 60, y: 78, z: 11.8, name: 'SE', country: 'Sweden',} ,
-            { x: 30, y: 56, z: 16.6, name: 'ES', country: 'Spain' },
-            { x: 85, y: 43, z: 14.5, name: 'FR', country: 'France' },
-            { x: 76, y: 27, z: 24.7, name: 'UK', country: 'United Kingdom' },
-            { x: 64, y: 89, z: 16, name: 'RU', country: 'Russia' },
-            {
-                x: 65.5,
-                y: 45,
-                z: 35.3,
-                name:
-                    'US',
-                country: 'United States'
-            },
-            { x: 116, y: 50, z: 28.5, name: 'HU', country: 'Hungary' },
-            { x: 94, y: 51, z: 15.4, name: 'PT', country: 'Portugal' },
-            { x: 104, y: 48, z: 31.3, name: 'NZ', country: 'New Zealand' }
-        ],
-  
+            { x: 20, y: 60, z: 13.8, name: 'BE', country: 'Belgium', color:"#93e498"},
+            { x: 18, y: 64, z: 14.7, name: 'DE', country: 'Germany',color:"#457b9d"},
+            { x: 30, y: 91.5, z: 15.8, name: 'FI', country: 'Finland',color:"#93e498"}, 
+            { x: 60, y: 78, z: 11.8, name: 'SE', country: 'Sweden',color:"#457b9d"},
+            { x: 30, y: 56, z: 16.6, name: 'ES', country: 'Spain',color:"#93e498"},
+            { x: 85, y: 43, z: 14.5, name: 'FR', country: 'France',color:"#457b9d" },
+            { x: 76, y: 27, z: 24.7, name: 'UK', country: 'United Kingdom',color:"#93e498"},
+            { x: 64, y: 89, z: 16, name: 'RU', country: 'Russia',color:"#457b9d" },
+            { x: 65.5, y: 45, z: 35.3, name: 'US', country: 'United States',color:"#93e498"},
+            { x: 116, y: 50, z: 28.5, name: 'HU', country: 'Hungary',color:"#457b9d" },
+            { x: 94, y: 51, z: 15.4, name: 'PT', country: 'Portugal',color:"#93e498"},
+            { x: 104, y: 48, z: 31.3, name: 'NZ', country: 'New Zealand',color:"#457b9d"}
+        ]
     }],
-    credits:{
-      enabled:false
-    },
+    credits: { enabled: false },
     responsive: {
-    rules: [{
-        condition: {
-            minWidth: 1500   
-        },
-        chartOptions: {
-            chart: {
-                spacing: [5, 5, 5, 5],   
-                margin: [10, 10, 10, 10]
-            },
-            xAxis: {
-                maxPadding: 0.05,
-                minPadding: 0.05,
-                labels: {
-                    style: {
-                        fontSize: '9px'
-                    }
-                }
-            },
-            yAxis: {
-                maxPadding: 0.05,
-                minPadding: 0.05,
-                labels: {
-                    style: {
-                        fontSize: '9px'
-                    }
-                }
-            },
-            plotOptions: {
-                bubble: {
-                    minSize: 5,
-                    maxSize: 20 
-                }
+        rules: [{
+            condition: { minWidth: 1500 },
+            chartOptions: {
+                chart: { spacing: [5, 5, 5, 5], margin: [10, 10, 10, 10] },
+                xAxis: { maxPadding: 0.05, minPadding: 0.05, labels: { style: { fontSize: '9px' } } },
+                yAxis: { maxPadding: 0.05, minPadding: 0.05, labels: { style: { fontSize: '9px' } } },
+                plotOptions: { bubble: { minSize: 5, maxSize: 20 } }
             }
-        }
-    }] 
-  }
-
+        }]
+    }
 });
 
-//Findings Container
+window.addEventListener('resize', () => {
+    bubbleChart.reflow();
+});
+
+
+
 const findingmainChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #main-chart-container");
 
-const findingMainLabels= ["Document Management", "Crew Management", "ghh", "ghgh", "ghghdg", "dfgd", "Document Management", "Crew Management", "ghh"];
-const findingMainData = [14, 28, 19, 33, 23, 45, 14, 28, 19];
+const findingMainLabels= ["Document Management", "Crew Management", "ghh", "ghgh", "ghghdg", "dfgd", "Document Management", "Crew Management", "ghh","fgfs"];
+const findingMainData = [14, 28, 19, 33, 23, 45, 14, 28, 19,55];
 const findingColor=["#70ffb0","#70ffb0","#70ffb0","#70ffb0","#70ffb0","#ff7884","#f8c06d","#f8c06d","#f8c06d","#70ffb0"]
-Highcharts.chart(findingmainChart, {
-            chart: {
+  Highcharts.chart(findingmainChart, {
+   chart: {
                 polar: true,
-                type: 'area'
+                type: 'line',
+                
             },
             title: {
-                text: null
+                text: ''
             },
             pane: {
-                size: '70%'
+                size: '60%'
             },
             xAxis: {
                 categories: findingMainLabels,
-                tickmarkPlacement: 'off',
+                tickmarkPlacement: 'on',
                 lineWidth: 0,
                 labels: {
-                  useHTML:true,
-        
-               formatter: function () {
-                if (this.isLast) {
-                    return ''; 
+                    style: {
+                  
+                        color: '#666'
+                    },
+                    distance: 25,
+                    formatter: function () {
+                      if(this.value === this.axis.max){
+                        return '';
+                      }
+                        return `
+                            <div class="polar-label">
+                                <p class="color" style="color:${findingColor[this.pos]}">
+                                    ${findingMainData[this.pos]}
+                                </p> 
+                                <span class="name">
+                                    ${findingMainLabels[this.pos]}
+                                </span> 
+                            </div>
+                        `;
+                    },
+                    useHTML: true
                 }
-
-                return `
-                    <span>
-                        <b style="color:${findingColor[this.pos]}">
-                            ${findingMainData[this.pos]}
-                        </b> 
-                        ${findingMainLabels[this.pos]}
-                    </span>
-                `;
-            }
-
-                }
-            },
-            credits:{
-              enabled:false,
             },
             yAxis: {
-                lineWidth: 0,
-                min: 10,
-                max: 60,
-                tickInterval:10
+                min: -60,
+                max: -10,
+                tickPositions: [-60, -50, -40, -30, -20, -10],
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    },
+                    align: 'center',
+                    y: 5
+                },
+                gridLineInterpolation: 'circle',
+                showLastLabel: true,
+                endOnTick: true
             },
             tooltip: {
                 shared: true,
@@ -665,104 +803,117 @@ Highcharts.chart(findingmainChart, {
                 enabled: false
             },
             series: [{
-                name: 'Score',
-                data: findingMainData,
+                name: 'Management Score',
+                data: findingMainData.map(val => -val),
                 pointPlacement: 'on',
-                color: '#4682a7',
-                fillColor: 'transparent',
+                color: '#4A90E2',
                 lineWidth: 2,
                 marker: {
                     enabled: false,
                 }
             }],
+            credits: {
+                enabled: false
+            }
+        });
+const findingSubChart = document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #sub-chart-container");
+
+const data = [
+    { red: 28, orange: 17, green: 9 },
+    { red: 39, orange: 0, green: 18 },
+    { red: 8,  orange: 32, green: 17 },
+    { red: 12, orange: 22, green: 0 }
+];
+
+const series = [
+    { name: 'Layer 1', data: [] },
+    { name: 'Layer 2', data: [] },
+    { name: 'Layer 3', data: [] }
+];
+
+data.forEach(item => {
+
+    let arr = [
+        { label: "red", value: item.red, color: "#ff7884" },
+        { label: "orange", value: item.orange, color: "#f8c06d" },
+        { label: "green", value: item.green, color: "#70ffb0" }
+    ].filter(v => v.value > 0);
+
+    arr.sort((a, b) => a.value - b.value);
+
+    let bottom = arr[0] ? arr[0] : null;
+    let middle = arr[1] ? arr[1] : null;
+    let top    = arr[2] ? arr[2] : null;
+
+    // bottom layer
+    series[0].data.push({
+        y: bottom ? bottom.value : 0,
+        color: bottom ? bottom.color : "transparent",
+        actualValue: bottom ? bottom.value : 0
+    });
+
+    // middle layer
+    series[1].data.push({
+        y: middle ? (middle.value - bottom.value) : 0,
+        color: middle ? middle.color : "transparent",
+        actualValue: middle ? middle.value : 0
+    });
+
+    // top layer
+    series[2].data.push({
+        y: top ? (top.value - middle.value) : 0,
+        color: top ? top.color : "transparent",
+        actualValue: top ? top.value : 0
+    });
 });
 
-const findingSubChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #sub-chart-container");
-
-Highcharts.chart( findingSubChart, {
-    chart: {
-        type: 'column',
-    },
-
-    title: {
-        text: '',
-        align: 'left',
-    },
-
+Highcharts.chart(findingSubChart, {
+    chart: { type: 'column' },
+    title: { text: '', align: 'left' },
     xAxis: {
         categories: ['Certificate', 'Company Policy', 'Deck Equipment', 'Document'],
-        labels:{
-          useHTML: true,
-          style: {
-            align:'center',
-            width: vwToPx(2.7),
-            minWidth:'30px'
-          }
-        },
-        lineWidth: 0,
+        labels: { useHTML: true, style: { align: 'center', width: vwToPx(2.7), minWidth: '30px' } },
+        lineWidth: 0
     },
-    credits:{
-      enabled:false,
-    },
+    credits: { enabled: false },
     yAxis: {
         min: 0,
-        max:60,
+        max: 60,
         title: '',
         gridLineColor: '#d1d1d1',
-         labels:{
-          useHTML:true,
-          style:{
-            align:'center'
-          }
-        },
-        tickPixelInterval: vwToPx(3) 
+        labels: { useHTML: true, style: { align: 'center' } },
+        tickPixelInterval: vwToPx(3)
     },
-
-    legend: {
-        enabled: false
-    },
-
+    legend: { enabled: false },
     plotOptions: {
-        column: {
-            stacking: 'normal',
-            borderWidth: 0,
-            pointPadding: 0.1,
-            groupPadding: 0.15,
-        },
-    
+        column: { stacking: 'normal', borderWidth: 0, pointPadding: 0.1, groupPadding: 0.1 },
         series: {
             dataLabels: {
+                useHTML: true,
                 enabled: true,
-                useHTML:true,
-            },
-            states: {
-               inactive: {
-                enabled: false
-              },
-                hover: {
-                    enabled: false
+                inside: true,
+                align: 'center',
+                verticalAlign: 'middle',
+                formatter: function () {
+                    if (!this.point.actualValue || this.point.actualValue === 0) return '';
+                    return `<div class="label sub-label">${this.point.actualValue}</div>`;
                 }
             },
-          },
-        },
-    series: [
-        {
-            name: 'Red',
-            color: '#ff7884',
-            data: [28, 39, 8, 12]
-        },
-        {
-            name: 'Orange',
-            color: '#f8c06d',
-            data: [17, 32, 22]
-        },
-        {
-            name: 'Green',
-            color: '#70ffb0',
-            data: [9, 18, 17 ]
+            states: {
+                inactive: { enabled: false },
+                hover: { enabled: false }
+            }
         }
-    ]
+    },
+    series: series
 });
+
+window.addEventListener('resize', () => {
+    subChart.reflow();
+});
+
+
+
 const findingsLocationChart=document.querySelector(".findings-outer-wrapper .findings-inner-wrapper .findings-chart-container #location-chart-container");
 
 
@@ -779,16 +930,22 @@ Highcharts.chart( findingsLocationChart, {
     xAxis: {
         categories: [
             "Accomodation",
-            "CCR /Ship Office",
+            "CCR / Ship Office",
             "Engine Room",
             "Master's Office",
             "On Deck",
             "Steering Room",
             "Wheel House"
         ],
-        labels:{
-          useHTML: true,
+        labels: {
+        useHTML: true,
+        align: "center",
+        formatter: function () {
+            return `<div class="label location-label">
+                ${this.value}
+            </div>`;
         },
+      },
         lineWidth: 0,
 
     },
@@ -863,47 +1020,59 @@ const weightedMainData=[14,28,19,33,23,45,14,28,19,33];
 const weightedColor=["#00af50","#00af50","#00af50","#00af50","#00af50","#e73845","#ff9f1d","#ff9f1d","#ff9f1d","#00af50"]
 
 Highcharts.chart(weightedmainChart, {
-            chart: {
+   chart: {
                 polar: true,
-                type: 'area'
+                type: 'line',
+                
             },
             title: {
-                text: null
+                text: ''
             },
             pane: {
                 size: '60%'
             },
             xAxis: {
-                categories: findingMainLabels,
+                categories: weightedMainLabels,
                 tickmarkPlacement: 'on',
                 lineWidth: 0,
                 labels: {
-                  useHTML:true,
-                   formatter: function () {
-                if (this.isLast) {
-                    return ''; 
+                    style: {
+                  
+                        color: '#666'
+                    },
+                    distance: 25,
+                    formatter: function () {
+                      if(this.value === this.axis.max){
+                        return '';
+                      }
+                        return `
+                            <div class="polar-label">
+                                <p class="color" style="color:${weightedColor[this.pos]}">
+                                    ${weightedMainData[this.pos]}
+                                </p> 
+                                <span class="name">
+                                    ${weightedMainLabels[this.pos]}
+                                </span> 
+                            </div>
+                        `;
+                    },
+                    useHTML: true
                 }
-
-                return `
-                    <span>
-                        <b style="color:${weightedColor[this.pos]}">
-                            ${weightedMainData[this.pos]}
-                        </b> 
-                        ${weightedMainLabels[this.pos]}
-                    </span>
-                `;
-            }
-        
-                }
-            },
-            credits:{
-              enabled:false,
             },
             yAxis: {
-                lineWidth: 0,
-                min:10,
-                max: 60,
-                tickInterval:10
+                min: -60,
+                max: -10,
+                tickPositions: [-60, -50, -40, -30, -20, -10],
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    },
+                    align: 'center',
+                    y: 5
+                },
+                gridLineInterpolation: 'circle',
+                showLastLabel: true,
+                endOnTick: true
             },
             tooltip: {
                 shared: true,
@@ -913,18 +1082,19 @@ Highcharts.chart(weightedmainChart, {
                 enabled: false
             },
             series: [{
-                name: 'Score',
-                data: findingMainData,
-                pointPlacement: 'off',
-                 color: '#4682a7',
-                fillColor: 'transparent',
+                name: 'Management Score',
+                data: findingMainData.map(val => -val),
+                pointPlacement: 'on',
+                color: '#4A90E2',
                 lineWidth: 2,
                 marker: {
                     enabled: false,
                 }
             }],
-});
-
+            credits: {
+                enabled: false
+            }
+        });
 const weightedSubChart=document.querySelector(".weighted-outer-wrapper .weighted-inner-wrapper .weighted-chart-container #sub-chart-container");
 Highcharts.chart( weightedSubChart, {
     chart: {
@@ -981,6 +1151,7 @@ Highcharts.chart( weightedSubChart, {
             dataLabels: {
                 enabled: true,
                 useHTML:true,
+                format: '<div class="label sub-label">{y}</div>',
             },
             states: {
                inactive: {
@@ -1026,16 +1197,22 @@ Highcharts.chart( weightedLocationChart, {
     xAxis: {
         categories: [
             "Accomodation",
-            "CCR /Ship Office",
+            "CCR / Ship Office",
             "Engine Room",
             "Master's Office",
             "On Deck",
             "Steering Room",
             "Wheel House"
         ],
-        labels:{
-          useHTML: true,
+        labels: {
+        useHTML: true,
+        align: "center",
+        formatter: function () {
+            return `<div class="label location-label">
+                ${this.value}
+            </div>`;
         },
+      },
         lineWidth: 0,
 
     },
@@ -1048,9 +1225,13 @@ Highcharts.chart( weightedLocationChart, {
         tickInterval: 10,  
         title: '',
         gridLineColor: '#d1d1d1',
-         labels:{
-          useHTML:true,
-        },
+        labels: {
+                useHTML: true,
+                  formatter: function () {
+                       return '-' + this.value;
+                  },
+                  
+              }
 
     },
 
@@ -1106,6 +1287,10 @@ Highcharts.chart( weightedLocationChart, {
     ]
 });
 
+
+window.addEventListener("resize", function () {
+    Highcharts.charts.forEach(c => c && c.reflow());
+});
 
 const duration = 1000; 
 
